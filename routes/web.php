@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth', 'user', 'session.timeout']], function () 
 
     Route::any('order-usano',  [HomeController::class,'order_now']);
 
-    Route::any('order-usanotwo',  [HomeController::class,'tellabot_order_now']);
+    Route::any('order-usasecound',  [HomeController::class,'tellabot_order_now']);
 
 
 
