@@ -146,7 +146,7 @@
                                                             class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
                                                 @else
-                                                    <form action="order-usano">
+                                                    <form action="order-usordernumberno">
                                                         <input hidden name="service" value="{{ $key }}">
                                                         <input hidden name="price" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $innerValue->cost }}">
@@ -186,7 +186,7 @@
                                                     </a>
 
                                                 @else
-                                                    <form action="order-usano">
+                                                    <form action="order-usordernumberno">
                                                         <input hidden name="service" value="{{ $key }}">
                                                         <input hidden name="price" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $innerValue->cost }}">
@@ -304,7 +304,7 @@
                                                             class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
                                                 @else
-                                                    <form action="order-usanotwo">
+                                                    <form action="order-usasecound">
                                                         <input hidden name="service" value="{{ $key->name }}">
                                                         <input hidden name="price" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $key->price }}">
