@@ -97,9 +97,9 @@ Route::group(['middleware' => ['auth', 'user', 'session.timeout']], function () 
 
     Route::any('check-av',  [HomeController::class,'check_av']);
 
-    Route::any('order-usordernumberno',  [HomeController::class,'order_now']);
+    Route::post('order-usordernumberno',  [HomeController::class,'order_now']);
 
-    Route::any('order-usasecound',  [HomeController::class,'tellabot_order_now']);
+    Route::post('order-usasecound',  [HomeController::class,'tellabot_order_now']);
 
 
 
