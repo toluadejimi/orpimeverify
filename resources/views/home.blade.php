@@ -142,7 +142,8 @@
 
                                                 @if(Auth::user()->wallet < $cost)
 
-                                                    <a href="fund-wallet" style="color: #7c7c7c"><i class="bi bi-wallet-fill"> Fund Wallet</i></a>
+                                                    <a href="fund-wallet" style="color: #7c7c7c"><i
+                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
                                                 @else
                                                     <form action="order-usano">
@@ -239,32 +240,102 @@
                                             N{{ number_format($cost, 2) }}
                                         </div>
 
-
                                         <div class="col">
-                                            <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">
-                                                <i class="fa fa-shopping-bag"></i>
-                                            </a>
+                                            @auth
+
+                                                @if(Auth::user()->wallet < $cost)
+
+                                                    <a href="fund-wallet" style="color: #7c7c7c"><i
+                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
+
+                                                @else
+                                                    <form action="order-usanotwo">
+                                                        <input hidden name="service" value="{{ $key->name }}">
+                                                        <input hidden name="price" value="{{ $cost }}">
+                                                        <input hidden name="cost" value="{{ $key->price }}">
+                                                        <input hidden name="name" value="{{ $innerValue->name }}">
+                                                        <button class="myButton"
+                                                                style="border: 0px; background: transparent"
+                                                                onclick="hideButton(this)"><i
+                                                                class="fa fa-shopping-bag"></i></button>
+                                                    </form>
+
+                                                @endif
+
+                                            @else
+
+                                                <a class=""
+                                                   href="/login">
+                                                    <i class="fa fa-lock text-dark"></i>
+                                                </a>
+                                            @endauth
+
                                         </div>
+
+
+
+
+
+                                        {{--                                        <div class="col">--}}
+                                        {{--                                            <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">--}}
+                                        {{--                                                <i class="fa fa-shopping-bag"></i>--}}
+                                        {{--                                            </a>--}}
+                                        {{--                                        </div>--}}
 
 
 
 
                                     @else
+
+
                                         <div style="font-size: 11px" class="col">
                                             @php $cost = (int) $get_rate2 * (double) $key->price + (int) $margin2 @endphp
                                             N{{ number_format($cost, 2) }}
                                         </div>
 
-
                                         <div class="col">
-                                            <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">
-                                                <i class="fa fa-shopping-bag">Buy</i>
-                                            </a>
+
+
+                                            @auth
+
+                                                @if(Auth::user()->wallet < $cost)
+
+                                                    <a href="fund-wallet" style="color: #7c7c7c"><i
+                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
+
+                                                @else
+                                                    <form action="order-usanotwo">
+                                                        <input hidden name="service" value="{{ $key->name }}">
+                                                        <input hidden name="price" value="{{ $cost }}">
+                                                        <input hidden name="cost" value="{{ $key->price }}">
+                                                        <input hidden name="name" value="{{ $innerValue->name }}">
+                                                        <button class="myButton"
+                                                                style="border: 0px; background: transparent"
+                                                                onclick="hideButton(this)"><i
+                                                                class="fa fa-shopping-bag"></i></button>
+                                                    </form>
+
+                                                @endif
+
+                                            @else
+
+                                                <a class=""
+                                                   href="/login">
+                                                    <i class="fa fa-lock text-dark"></i>
+                                                </a>
+                                            @endauth
+
+
+                                            {{--                                        <div class="col">--}}
+                                            {{--                                            <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">--}}
+                                            {{--                                                <i class="fa fa-shopping-bag">Buy</i>--}}
+                                            {{--                                            </a>--}}
+                                            {{--                                        </div>--}}
+                                            @endif
                                         </div>
-                                    @endif
 
 
-                                    <hr style="border-color: #cccccc" class=" my-2">
+                                        <hr style="border-color: #cccccc" class=" my-2">
                                 </div>
                             @endforeach
 

@@ -98,7 +98,15 @@ Route::group(['middleware' => ['auth', 'user', 'session.timeout']], function () 
     Route::any('check-av',  [HomeController::class,'check_av']);
 
     Route::any('order-usano',  [HomeController::class,'order_now']);
-    Route::any('order-oprime',  [HomeController::class,'tellabot_order_now']);
+
+    Route::any('order-usanotwo',  [HomeController::class,'tellabot_order_now']);
+
+
+
+
+
+
+
     Route::any('order-sim',  [HomeController::class,'online_sms']);
 
     Route::any('cancle-sms',  [HomeController::class,'cancle_sms']);
