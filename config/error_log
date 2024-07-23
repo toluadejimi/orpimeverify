@@ -1,0 +1,16 @@
+[21-May-2024 15:42:10 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/oprimeco/oprimeverify.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/oprimeco/oprimeverify.com/config/database.php on line 18
+[22-May-2024 02:15:18 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/oprimeco/oprimeverify.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/oprimeco/oprimeverify.com/config/database.php on line 18
+[23-May-2024 00:16:51 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/oprimeco/oprimeverify.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/oprimeco/oprimeverify.com/config/database.php on line 18
+[19-Jul-2024 18:20:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/oprimeco/oprimeverify.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/oprimeco/oprimeverify.com/config/database.php on line 18
