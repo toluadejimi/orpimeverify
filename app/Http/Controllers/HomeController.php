@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 // use App\Mail\VerifyEmail;
+use App\Models\Order;
 use DateTime;
 use App\Models\Item;
 use App\Models\User;
@@ -89,6 +90,54 @@ class HomeController extends Controller
         $cost = $request->cost;
         $service_name = $request->name;
 
+
+        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
+
+        if($last_order != null){
+
+            $createdAt = strtotime($last_order);
+            $currentTime = time();
+            $timeDifference = $currentTime - $createdAt;
+
+            if ($timeDifference < 1) {
+                $notify = "Please wait for 10sec and try again";
+                return redirect('user/orders')->with('error', $notify);
+            }
+
+        }
+
+
+        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
+
+        if($last_order != null){
+
+            $createdAt = strtotime($last_order);
+            $currentTime = time();
+            $timeDifference = $currentTime - $createdAt;
+
+            if ($timeDifference < 1) {
+                $notify = "Please wait for 10sec and try again";
+                return redirect('user/orders')->with('error', $notify);
+            }
+
+        }
+
+
+        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
+
+        if($last_order != null){
+
+            $createdAt = strtotime($last_order);
+            $currentTime = time();
+            $timeDifference = $currentTime - $createdAt;
+
+            if ($timeDifference < 1) {
+                $notify = "Please wait for 10sec and try again";
+                return redirect('user/orders')->with('error', $notify);
+            }
+
+        }
+
         $order = create_order($service, $price, $cost, $service_name);
 
 
@@ -162,6 +211,22 @@ class HomeController extends Controller
         $service = $request->service;
         $price = $request->price;
         $cost = $request->cost;
+
+
+        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
+
+        if($last_order != null){
+
+            $createdAt = strtotime($last_order);
+            $currentTime = time();
+            $timeDifference = $currentTime - $createdAt;
+
+            if ($timeDifference < 1) {
+                $notify = "Please wait for 10sec and try again";
+                return redirect('user/orders')->with('error', $notify);
+            }
+
+        }
 
         $order = create_tellbot_order($service, $price, $cost);
 
@@ -238,6 +303,22 @@ class HomeController extends Controller
         $countryText = $request->countryText;
 
         $cost = $request->cost;
+
+
+        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
+
+        if($last_order != null){
+
+            $createdAt = strtotime($last_order);
+            $currentTime = time();
+            $timeDifference = $currentTime - $createdAt;
+
+            if ($timeDifference < 1) {
+                $notify = "Please wait for 10sec and try again";
+                return redirect('user/orders')->with('error', $notify);
+            }
+
+        }
 
         $order = create_online_sms_number($service, $price, $cost, $country, $countryText);
 
