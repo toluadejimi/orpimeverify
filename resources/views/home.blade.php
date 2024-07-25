@@ -154,7 +154,7 @@
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
-                                                                onclick="hideButton(this)"><i
+                                                                onclick="hideButtondis(this)"><i
                                                                 class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
@@ -169,7 +169,7 @@
                                             @endauth
 
                                                 <script>
-                                                    function hideButton(link) {
+                                                    function hideButtondis(link) {
                                                         // Hide the clicked link
                                                         link.style.display = 'none';
 
@@ -206,7 +206,7 @@
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
-                                                                onclick="hideButton(this)"><i
+                                                                onclick="hideButtondon(this)"><i
                                                                 class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
@@ -219,6 +219,21 @@
                                                     <i class="fa fa-lock text-dark"></i>
                                                 </a>
                                             @endauth
+
+                                                <script>
+                                                    function hideButtondon(link) {
+                                                        // Hide the clicked link
+                                                        link.style.display = 'none';
+
+                                                        setTimeout(function () {
+                                                            link.style.display = 'inline'; // or 'block' depending on your layout
+                                                        }, 5000); // 5 seconds
+                                                    }
+                                                </script>
+
+
+
+
                                         </div>
 
                                         {{--                                <div class="col">--}}
@@ -270,7 +285,7 @@
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
-                                                                onclick="hideButton(this)"><i
+                                                                onclick="hideButtonlop(this)"><i
                                                                 class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
@@ -283,6 +298,18 @@
                                                     <i class="fa fa-lock text-dark"></i>
                                                 </a>
                                             @endauth
+
+
+                                                <script>
+                                                    function hideButtonlop(link) {
+                                                        // Hide the clicked link
+                                                        link.style.display = 'none';
+
+                                                        setTimeout(function () {
+                                                            link.style.display = 'inline'; // or 'block' depending on your layout
+                                                        }, 5000); // 5 seconds
+                                                    }
+                                                </script>
 
                                         </div>
 
@@ -326,7 +353,7 @@
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
-                                                                onclick="hideButton(this)"><i
+                                                                onclick="hideButtonppl(this)"><i
                                                                 class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
@@ -339,6 +366,18 @@
                                                     <i class="fa fa-lock text-dark"></i>
                                                 </a>
                                             @endauth
+
+
+                                                <script>
+                                                    function hideButtonppl(link) {
+                                                        // Hide the clicked link
+                                                        link.style.display = 'none';
+
+                                                        setTimeout(function () {
+                                                            link.style.display = 'inline'; // or 'block' depending on your layout
+                                                        }, 5000); // 5 seconds
+                                                    }
+                                                </script>
 
 
                                             {{--                                        <div class="col">--}}
