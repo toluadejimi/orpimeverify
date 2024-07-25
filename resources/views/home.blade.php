@@ -168,6 +168,17 @@
                                                 </a>
                                             @endauth
 
+                                                <script>
+                                                    function hideButton(link) {
+                                                        // Hide the clicked link
+                                                        link.style.display = 'none';
+
+                                                        setTimeout(function () {
+                                                            link.style.display = 'inline'; // or 'block' depending on your layout
+                                                        }, 5000); // 5 seconds
+                                                    }
+                                                </script>
+
                                         </div>
                                     @else
 
