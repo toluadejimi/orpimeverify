@@ -85,6 +85,9 @@ class HomeController extends Controller
 
 
 
+
+
+
         $service = $request->service;
         $price = $request->price;
         $cost = $request->cost;
@@ -138,7 +141,19 @@ class HomeController extends Controller
 
         }
 
+
+
+        if (Auth::user()->wallet < $request->price) {
+            return back()->with('error', "Insufficient Funds");
+        }
+
         $order = create_order($service, $price, $cost, $service_name);
+
+        if($order == 9){
+            return back()->with('error', "Insufficient Funds");
+        }
+
+
 
 
         //dd($order);
@@ -440,7 +455,6 @@ class HomeController extends Controller
                     $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                     send_notification($message);
                     return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
-
 
                 }
 
@@ -1714,6 +1728,41 @@ public function simhook(Request $request) {
         }
     }
 
+    public function delete_order_admin(request $request)
+    {
+
+        $order = Verification::where('id', $request->id)->first() ?? null;
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order->status == 2) {
+            Verification::where('id', $request->id)->delete();
+            return back()->with('message', "Order has been successfully deleted");
+        }
+
+        if ($order->status == 1) {
+
+            $orderID = $order->order_id;
+            $can_order = cancel_order($orderID);
+
+            if ($can_order == 0) {
+                return back()->with('error', "Please wait and try again later");
+            }
+
+
+            if ($can_order == 1) {
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled");
+            }
+
+
+            if ($can_order == 3) {
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled");
+            }
+        }
+    }
 
 
 

@@ -247,6 +247,13 @@ function getOnlineSimServices() {
 function create_order($service, $price, $cost, $service_name){
 
 
+
+
+    if (Auth::user()->wallet < $price) {
+        return 9;
+    }
+
+
     // $verification = Verification::where('user_id', Auth::id())->where('status', 1)->first() ?? null;
 
     // if($verification != null || $verification == 1){

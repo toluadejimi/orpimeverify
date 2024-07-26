@@ -264,7 +264,8 @@
                                                         </td>
                                                         @else
                                                         <td>
-                                                            <span class="badge badge-pill badge-warning">Pendong</span>
+                                                            <span class="badge badge-pill badge-warning">Pending</span>
+                                                            <a href="delete-admin" class="btn btn-danger">Delete Order</a>
 
                                                         </td>
                                                         @endif
