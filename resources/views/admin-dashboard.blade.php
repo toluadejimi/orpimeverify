@@ -253,9 +253,9 @@
                                                     <tr>
 
                                                         <td>{{ $data->user->username }} </td>
-                                                        <td>{{ $data->phone }} </td>
+                                                        <td>{{ $data->order_id }} </td>
                                                         <td>{{ $data->service }} </td>
-                                                         <td>{{ $data->order_id }} </td>
+                                                        <td>{{ $data->phone }} </td>
                                                          <td>{{ $data->full_sms }} </td>
                                                         <td>{{ $data->cost }} </td>
                                                         @if($data->status == 2)
