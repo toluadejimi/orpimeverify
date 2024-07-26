@@ -1747,7 +1747,8 @@ public function simhook(Request $request) {
             $can_order = cancel_order($orderID);
 
             if ($can_order == 0) {
-                return back()->with('error', "Please wait and try again later");
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled");
             }
 
 
