@@ -1733,7 +1733,7 @@ public function simhook(Request $request) {
 
         $order = Verification::where('id', $request->id)->first() ?? null;
         if ($order == null) {
-            return redirect('home')->with('error', 'Order not found');
+            return back()->with('message', "Order not found");
         }
 
         if ($order->status == 2) {

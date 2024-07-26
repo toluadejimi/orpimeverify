@@ -265,7 +265,7 @@
                                                         @else
                                                         <td>
                                                             <span class="badge badge-pill badge-warning">Pending</span>
-                                                            <a href="delete-admin" class="btn btn-danger">Delete Order</a>
+                                                            <a href="delete-admin?id={{$data->id}}" class="btn btn-danger btn-sm">Delete Order</a>
 
                                                         </td>
                                                         @endif
