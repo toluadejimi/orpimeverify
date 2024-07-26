@@ -149,4 +149,18 @@ Route::any('policy', [HomeController::class, 'policy']);
 
 
 Route::get('users', [AdminController::class, 'index_user']);
+Route::get('view-user', [AdminController::class, 'view_user']);
+Route::any('update-user', [AdminController::class, 'update_user']);
+Route::any('update-user_custom', [AdminController::class, 'update_user_custom']);
+Route::any('remove-user', [AdminController::class, 'remove_user']);
+
+
+Route::post('edit-front-pr', [AdminController::class, 'edit_front_product']);
+
+
+Route::post('admin-login', [AdminController::class, 'admin_login']);
+
+
+//product
+
 
