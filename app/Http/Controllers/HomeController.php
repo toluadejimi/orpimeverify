@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use App\Mail\VerifyEmail;
 use App\Models\Order;
+use App\Models\Session;
 use DateTime;
 use App\Models\Item;
 use App\Models\User;
@@ -1335,7 +1336,7 @@ class HomeController extends Controller
 
     public function logout(Request $request)
     {
-
+        Session::where('user_id', Auth::id())->delete();
         Auth::logout();
         return redirect('/');
     }
