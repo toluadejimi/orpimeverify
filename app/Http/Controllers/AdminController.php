@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Session;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Setting;
@@ -25,14 +26,22 @@ class AdminController extends Controller
     public function index(request $request){
 
 
-
-
         return view('admin-login');
 
 
+    }
+
+
+    public function clear_all_session(request $request){
+
+        Session::where('created_at', '<', Carbon::now()->subMinutes(2))->delete();
+        return view('/');
 
 
     }
+
+
+
 
 	public function admin_login(request $request)
 	{
