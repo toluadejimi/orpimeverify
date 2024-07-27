@@ -35,7 +35,7 @@ class AdminController extends Controller
     public function clear_all_session(request $request){
 
         Session::where('created_at', '<', Carbon::now()->subMinutes(2))->delete();
-        return view('/');
+        return redirect('/');
 
 
     }
