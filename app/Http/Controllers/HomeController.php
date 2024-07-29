@@ -51,10 +51,7 @@ class HomeController extends Controller
         $data['margin'] = Setting::where('id', 1)->first()->margin;
         $data['margin2'] = Setting::where('id', 1)->first()->margin_2;
         $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
-
         $data['verification'] = Verification::latest()->where('user_id', Auth::id())->paginate('10');
-
-
         $data['order'] = 0;
 
 
@@ -76,229 +73,107 @@ class HomeController extends Controller
     {
 
 
-        if (Auth::user()->wallet < $request->price) {
-            return back()->with('error', "Insufficient Funds");
-        }
+        if($request->type == 1){
 
-        if (Auth::user()->wallet < $request->price) {
-            return back()->with('error', "Insufficient Funds");
-        }
-
-
-
-
-
-
-        $service = $request->service;
-        $price = $request->price;
-        $cost = $request->cost;
-        $service_name = $request->name;
-
-
-        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-
-        if($last_order != null){
-
-            $createdAt = strtotime($last_order);
-            $currentTime = time();
-            $timeDifference = $currentTime - $createdAt;
-
-            if ($timeDifference < 1) {
-                $notify = "Please wait for 10sec and try again";
-                return redirect('user/orders')->with('error', $notify);
-            }
-
-        }
-
-
-        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-
-        if($last_order != null){
-
-            $createdAt = strtotime($last_order);
-            $currentTime = time();
-            $timeDifference = $currentTime - $createdAt;
-
-            if ($timeDifference < 1) {
-                $notify = "Please wait for 10sec and try again";
-                return redirect('user/orders')->with('error', $notify);
-            }
-
-        }
-
-
-        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-
-        if($last_order != null){
-
-            $createdAt = strtotime($last_order);
-            $currentTime = time();
-            $timeDifference = $currentTime - $createdAt;
-
-            if ($timeDifference < 1) {
-                $notify = "Please wait for 10sec and try again";
-                return redirect('user/orders')->with('error', $notify);
-            }
-
-        }
-
-
-
-        if (Auth::user()->wallet < $request->price) {
-            return back()->with('error', "Insufficient Funds");
-        }
-
-        $order = create_order($service, $price, $cost, $service_name);
-
-        if($order == 9){
-            return back()->with('error', "Insufficient Funds");
-        }
-
-
-
-
-        //dd($order);
-
-        // if ($order == 9) {
-
-        //     $ver = Verification::where('status', 1)->first() ?? null;
-        //     if($ver != null){
-
-        //         $data['sms_order'] = $ver;
-        //         $data['order'] = 1;
-
-        //         return view('receivesms', $data);
-
-        //     }
-        //     return redirect('home');
-        // }
-
-        if ($order == 0) {
-            // User::where('id', Auth::id())->increment('wallet', $request->price);
-            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-        }
-
-        if ($order == 0) {
-            // User::where('id', Auth::id())->increment('wallet', $request->price);
-            $message = "OPRIME VERIFY| Low balance";
-            send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
-
-        if ($order == 0) {
-            // User::where('id', Auth::id())->increment('wallet', $request->price);
-            $message = "OPRIME VERIFY | Error";
-            send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
-
-        if ($order == 1) {
- User::where('id', Auth::id())->decrement('wallet', $request->price);
+            $service = $request->service;
+            $price = $request->price;
+            $service_name = $request->name;
 
             $data['services'] = get_services();
             $data['get_rate'] = Setting::where('id', 1)->first()->rate;
+            $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
+            $data['get_rate3'] = Setting::where('id', 1)->first()->rate_3;
             $data['margin'] = Setting::where('id', 1)->first()->margin;
-            $data['sms_order'] = Verification::where('user_id', Auth::id())->where('status' , 1)->first();
-            $data['order'] = 1;
+            $data['margin2'] = Setting::where('id', 1)->first()->margin_2;
+            $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
+            $innerValue =  get_d_price($service);
 
-            $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
+            $cost2 = $data['get_rate'] * $innerValue + $data['margin'];
 
-            return redirect('home')->with('message', 'Order Placed');
+            if (Auth::user()->wallet < $cost2) {
+                return back()->with('error', "Insufficient Funds");
+            }
 
-            // return view('receivesms', $data);
+            User::where('id', Auth::id())->decrement('wallet',  $cost2);
+
+            $cost = $innerValue;
+            $price = $cost2;
+
+
+            $order = create_order($service, $price, $cost, $service_name);
+
+
+            if ($order == 0) {
+                User::where('id', Auth::id())->increment('wallet', $price);
+                return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+            }
+
+
+            if ($order == 1) {
+                return redirect('home')->with('message', 'Order Placed');
+            }
+
+
+
         }
+
+
+
+
+
+
     }
 
     public function tellabot_order_now(Request $request)
     {
 
 
-        if (Auth::user()->wallet < $request->price) {
-            return back()->with('error', "Insufficient Funds");
-        }
+        if($request->type == 2){
+
+
+            $service = $request->name;
 
 
 
+            $data['services'] = get_services();
+            $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
+            $data['get_rate3'] = Setting::where('id', 1)->first()->rate_3;
+            $data['margin'] = Setting::where('id', 1)->first()->margin;
+            $data['margin2'] = Setting::where('id', 1)->first()->margin_2;
+            $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
+            $innerValue =  get_t_price($service);
+            $cost2 = $data['get_rate2'] * $innerValue + $data['margin2'];
 
-        $service = $request->service;
-        $price = $request->price;
-        $cost = $request->cost;
 
-
-        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-
-        if($last_order != null){
-
-            $createdAt = strtotime($last_order);
-            $currentTime = time();
-            $timeDifference = $currentTime - $createdAt;
-
-            if ($timeDifference < 1) {
-                $notify = "Please wait for 10sec and try again";
-                return redirect('user/orders')->with('error', $notify);
+            if (Auth::user()->wallet < $cost2) {
+                return back()->with('error', "Insufficient Funds");
             }
 
+            User::where('id', Auth::id())->decrement('wallet',  $cost2);
+
+            $cost = $innerValue;
+            $price = $cost2;
+
+
+            $order = create_tellbot_order($service, $price, $cost);
+
+            if ($order == 0) {
+                User::where('id', Auth::id())->increment('wallet', $price);
+                return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+            }
+
+
+            if ($order == 1) {
+                return redirect('home')->with('message', 'Order Placed');
+            }
+
+
+
         }
 
-        $order = create_tellbot_order($service, $price, $cost);
 
 
-        //dd($order);
 
-        // if ($order == 9) {
-
-        //     $ver = Verification::latest()->where('user_id', auth()->id())->where('status', 1)->first() ?? null;
-        //     if($ver != null){
-
-        //         $data['sms_order'] = $ver;
-        //         $data['order'] = 1;
-
-        //         return view('receivesmstella', $data);
-
-        //     }
-        //     return redirect('home');
-        // }
-
-        if ($order == 0) {
-            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-        }
-
-        if ($order == 0) {
-            $message = "TWBNUMBER | Low balance";
-            send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
-
-        if ($order == 0) {
-            $message = "TWBNUMBER | Error";
-            send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
-
-        if ($order == 1) {
-
-            User::where('id', Auth::id())->decrement('wallet', $request->price);
-
-            $data['services'] = get_tellbot_service();
-            $data['get_rate'] = Setting::where('id', 1)->first()->rate;
-            $data['margin'] = Setting::where('id', 1)->first()->margin;
-            $data['sms_order'] = Verification::where('user_id', Auth::id())->where('status' , 1)->latest()->first();
-            $data['order'] = 1;
-
-            $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
-
-            return redirect('home')->with('message', 'Order Placed');
-
-            // return view('receivesmstella', $data);
-        }
     }
 
     public function online_sms(Request $request)

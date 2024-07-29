@@ -220,6 +220,66 @@ function get_services(){
 
 }
 
+
+function get_d_price($service){
+    $APIKEY = env('KEY');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://daisysms.com/stubs/handler_api.php?api_key=$APIKEY&action=getPrices&service=$service",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ),
+    ));
+
+    $var = curl_exec($curl);
+    curl_close($curl);
+    $var = json_decode($var);
+
+
+    foreach($var as $key => $value){
+
+        $service2['data'] =  $value;
+
+    }
+
+    $result = $service2["data"]->$service->cost;
+    return $result;
+
+}
+
+
+function get_t_price($service){
+
+    $tellbot_services = get_tellbot_service();
+    foreach ($tellbot_services->message as $key){
+        $keyn[] = ['name' => $key->name, 'price' =>$key->price ];
+
+    }
+
+    $filterName = $service;
+    $filteredData = array_filter($keyn, function($item) use ($filterName) {
+        return $item['name'] === $filterName;
+    });
+
+    $prices = array_column($filteredData, 'price');
+
+    return $prices['0'];
+
+}
+
+
+
+
+
+
 function getOnlineSimServices() {
     $APIKEY = env('ONLINESIM');
     $url = "https://onlinesim.io/api/getTariffs.php";
@@ -254,11 +314,6 @@ function create_order($service, $price, $cost, $service_name){
     }
 
 
-    // $verification = Verification::where('user_id', Auth::id())->where('status', 1)->first() ?? null;
-
-    // if($verification != null || $verification == 1){
-    //     return 9;
-    // }
 
    $APIKEY = env('KEY');
    $curl = curl_init();
@@ -277,6 +332,7 @@ function create_order($service, $price, $cost, $service_name){
    $var = curl_exec($curl);
    curl_close($curl);
    $result = $var ??  null;
+
 
     if(strstr($result, "ACCESS_NUMBER") !== false) {
 

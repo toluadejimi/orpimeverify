@@ -149,7 +149,8 @@
                                                     <form action="order-usordernumberno" method="post">
                                                         @csrf
                                                         <input hidden name="service" value="{{ $key }}">
-                                                        <input hidden name="price" value="{{ $cost }}">
+                                                        <input hidden name="type" value="1">
+                                                        <input hidden name="amount" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $innerValue->cost }}">
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
@@ -201,7 +202,8 @@
                                                     <form action="order-usordernumberno" method="post">
                                                         @csrf
                                                         <input hidden name="service" value="{{ $key }}">
-                                                        <input hidden name="price" value="{{ $cost }}">
+                                                        <input hidden name="type" value="1">
+                                                        <input hidden name="amount" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $innerValue->cost }}">
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
@@ -280,7 +282,8 @@
                                                     <form action="order-usasecound" method="post">
                                                         @csrf
                                                         <input hidden name="service" value="{{ $key->name }}">
-                                                        <input hidden name="price" value="{{ $cost }}">
+                                                        <input hidden name="type" value="2">
+                                                        <input hidden name="amount" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $key->price }}">
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
                                                         <button class="myButton"
@@ -345,17 +348,22 @@
                                                             class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
                                                 @else
-                                                    <form action="order-usasecound" method="post">
+                                                    <form id="orderForm" action="order-usasecound" method="post">
                                                         @csrf
                                                         <input hidden name="service" value="{{ $key->name }}">
-                                                        <input hidden name="price" value="{{ $cost }}">
+                                                        <input hidden name="type" value="2">
+                                                        <input hidden name="amount" value="{{ $cost }}">
                                                         <input hidden name="cost" value="{{ $key->price }}">
                                                         <input hidden name="name" value="{{ $innerValue->name }}">
-                                                        <button class="myButton"
+                                                        <button class="myButton" type="submit"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonppl(this)"><i
                                                                 class="fa fa-shopping-bag"></i></button>
                                                     </form>
+
+
+
+
 
                                                 @endif
 
