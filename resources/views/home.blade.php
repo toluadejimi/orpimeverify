@@ -9,12 +9,13 @@
 
     <div class="container ">
 
-    <div class="d-flex flex-column align-items-center my-4 p-2 mt-5">
-    <h2 style=" color: blue;">
+    <div class="d-flex flex-column align-items-start my-4 p-2 mt-5">
+    <h2 style="font-size: 24px; color: blue; margin: 0;">
         Hi, {{ Auth::user()->username }}
     </h2>
     <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
 </div>
+
 
 
         <div class="d-flex justify-content-center mb-3 p-1">
