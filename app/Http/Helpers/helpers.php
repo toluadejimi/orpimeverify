@@ -2,6 +2,7 @@
 
 use App\Constants\Status;
 use App\Models\Extension;
+use App\Models\User;
 use App\Models\Verification;
 use App\Lib\GoogleAuthenticator;
 use Illuminate\Support\Facades\Auth;
