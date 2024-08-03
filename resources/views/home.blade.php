@@ -96,14 +96,15 @@
 
 
                     <div class="row my-3 p-2"
-                         style="background: #000000; border-radius: 10px; color: white; font-size: 15px; border-radius: 18px">
-                        <div class="col-7">
-                            <h5>Services</h5>
-                        </div>
-                        <div class="col">
-                            <h5>Price</h5>
-                        </div>
-                    </div>
+     style="background: #000000; border-radius: 18px; color: white; font-size: 15px;">
+    <div class="col-7" style="background: blue; border-radius: 10px; padding: 10px;">
+        <h5>Services</h5>
+    </div>
+    <div class="col" style="background: blue; border-radius: 10px; padding: 10px;">
+        <h5>Price</h5>
+    </div>
+</div>
+
 
 
                 </div>
