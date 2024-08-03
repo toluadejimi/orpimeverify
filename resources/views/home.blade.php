@@ -474,100 +474,90 @@
 
         <!--<div class="">-->
 
-        <div class="">
-            <!--<h6 class="text-danger"><b>In Case Number/code didnt drop kindly reload this page you can delete after 1 minute if its didn't drop</b></h6>-->
-            <br>
-            <strong>
-                <h4>Verifications</h4>
-            </strong>
-        </div>
+       <div class="container my-4">
+    <div class="mb-4">
+        <strong>
+            <h4>Verifications</h4>
+        </strong>
+    </div>
 
-        <div>
-
-
-            <div class="table-responsive ">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Service</th>
-                        <th>Phone No</th>
-                        <th>Code</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Date</th>
-
-
-                    </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Service</th>
+                            <th>Phone No</th>
+                            <th>Code</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
                     </thead>
                     <tbody>
-
-
-                    @forelse($verification as $data)
-                        <tr>
-                            <td style="font-size: 12px;">{{ $data->id }}</td>
-                            <td style="font-size: 12px;">{{ $data->service }}</td>
-                            @if($data->type == 'tella')
-                                <td style="font-size: 12px; color: green"><a href="">{{ $data->phone }} </a></td>
-                            @elseif($data->type == 'dailysms')
-                                <td style="font-size: 12px; color: green"><a href="">{{ $data->phone }} </a></td>
-                            @else
-                                <td style="font-size: 12px; color: green"><a href="">{{ $data->phone }} </a></td>
-                            @endif
-                            <td style="font-size: 12px;">{{ $data->sms }}</td>
-                            <td style="font-size: 12px;">₦{{ number_format($data->cost, 2) }}</td>
-                            <td>
-                                @if ($data->status == 1)
-                                    <span style="background: orange; border:0px; font-size: 10px"
-                                          class="btn btn-warning btn-sm">Pending</span>
-                                    @if($data->type == 'tella')
-
-                                        <a onclick="hideButtondeletetella(this)"
-                                           href="cancle-tella-sms?id={{ $data->order_id }}&delete=1"
-                                           style="background: rgb(168, 0, 14); border:0px; font-size: 10px"
-                                           class="btn btn-warning btn-sm">Delete</span>
-                                            @elseif($data->type == 'dailysms')
-                                                <a onclick="hideButtondeletetella(this)" href="cancle-sms?id={{  $data->id }}&delete=1"
-                                                   style="background: rgb(168, 0, 14); border:0px; font-size: 10px"
-                                                   class="btn btn-warning btn-sm">Delete</span>
-                                                    @else
-                                                        <a onclick="hideButtondeletetella(this)" href="cancel-online-sms?id={{  $data->order_id }}&delete=1"
-                                                           style="background: rgb(168, 0, 14); border:0px; font-size: 10px"
-                                                           class="btn btn-warning btn-sm">Delete</span>
-                                                            @endif
-                                                            @else
-                                                                <span style="font-size: 10px;"
-                                                                      class="text-white btn btn-success btn-sm">Completed</span>
+                        @forelse($verification as $data)
+                            <tr>
+                                <td style="font-size: 12px;">{{ $data->id }}</td>
+                                <td style="font-size: 12px;">{{ $data->service }}</td>
+                                @if($data->type == 'tella')
+                                    <td style="font-size: 12px; color: green"><a href="">{{ $data->phone }} </a></td>
+                                @elseif($data->type == 'dailysms')
+                                    <td style="font-size: 12px; color: green"><a href="">{{ $data->phone }} </a></td>
+                                @else
+                                    <td style="font-size: 12px; color: green"><a href="">{{ $data->phone }} </a></td>
+                                @endif
+                                <td style="font-size: 12px;">{{ $data->sms }}</td>
+                                <td style="font-size: 12px;">₦{{ number_format($data->cost, 2) }}</td>
+                                <td>
+                                    @if ($data->status == 1)
+                                        <span style="background: orange; border:0px; font-size: 10px;"
+                                              class="btn btn-warning btn-sm">Pending</span>
+                                        @if($data->type == 'tella')
+                                            <a onclick="hideButtondeletetella(this)"
+                                               href="cancle-tella-sms?id={{ $data->order_id }}&delete=1"
+                                               style="background: rgb(168, 0, 14); border:0px; font-size: 10px;"
+                                               class="btn btn-warning btn-sm">Delete</a>
+                                        @elseif($data->type == 'dailysms')
+                                            <a onclick="hideButtondeletetella(this)" href="cancle-sms?id={{ $data->id }}&delete=1"
+                                               style="background: rgb(168, 0, 14); border:0px; font-size: 10px;"
+                                               class="btn btn-warning btn-sm">Delete</a>
+                                        @else
+                                            <a onclick="hideButtondeletetella(this)" href="cancel-online-sms?id={{ $data->order_id }}&delete=1"
+                                               style="background: rgb(168, 0, 14); border:0px; font-size: 10px;"
+                                               class="btn btn-warning btn-sm">Delete</a>
+                                        @endif
+                                    @else
+                                        <span style="font-size: 10px;"
+                                              class="text-white btn btn-success btn-sm">Completed</span>
                                     @endif
-
-
-                                                            <script>
-                                                                function hideButtondeletetella(link) {
-                                                                    // Hide the clicked link
-                                                                    link.style.display = 'none';
-
-                                                                    setTimeout(function () {
-                                                                        link.style.display = 'inline'; // or 'block' depending on your layout
-                                                                    }, 5000); // 5 seconds
-                                                                }
-                                                            </script>
-
-                            </td>
-                            <td style="font-size: 12px;">{{ $data->created_at }}</td>
-                        </tr>
-
-                    @empty
-
-                        <h6>No verification found</h6>
-                    @endforelse
-
+                                </td>
+                                <td style="font-size: 12px;">{{ $data->created_at }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center">No verification found</td>
+                            </tr>
+                        @endforelse
                     </tbody>
-
-                    {{ $verification->links() }}
-
                 </table>
+                {{ $verification->links() }}
             </div>
         </div>
+    </div>
+</div>
+
+<script>
+    function hideButtondeletetella(link) {
+        // Hide the clicked link
+        link.style.display = 'none';
+
+        setTimeout(function () {
+            link.style.display = 'inline'; // or 'block' depending on your layout
+        }, 5000); // 5 seconds
+    }
+</script>
 
 
     </div>
