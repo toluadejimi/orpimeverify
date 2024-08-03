@@ -103,9 +103,9 @@ class HomeController extends Controller
 
             $order = create_order($service, $price, $cost, $service_name, $cost2);
 
-            if ($order == 9) {
-                return redirect('home')->with('error', 'Insufficient Balance');
-            }
+            // if ($order == 9) {
+            //     return redirect('home')->with('error', 'Insufficient Balance');
+            // }
 
             if ($order == 0) {
                 User::where('id', Auth::id())->increment('wallet', $price);
