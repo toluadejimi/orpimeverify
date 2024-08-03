@@ -276,7 +276,7 @@
 
 
                 <ul class="menu menu-horizontal px-1">
-                    <a href="#" id="balance" class="btn btn-danger mr3 font-mono">
+                    <a href="#" id="balance" class="btn btn-danger mr-2 font-mono">
                         ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
                     </a>
 
@@ -296,7 +296,7 @@
 
 
             <div class="navbar-end d-block d-sm-none">
-                <a href="/fund-wallet" id="balance" class="btn btn-dark mr-2 font-mono">
+                <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2 font-mono">
 
                     ₦{{ number_format(Auth::user()->hold_wallet, 2) }} |
 
@@ -486,7 +486,7 @@
         </footer>
     </div>
 
-    <!-- Start of Tawk.to Script--> 
+    <!-- Start of Tawk.to Script--> -->
     <!-- <script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         (function () {
