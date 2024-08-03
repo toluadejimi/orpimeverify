@@ -296,15 +296,14 @@
 
 
             <div class="navbar-end d-block d-sm-none">
-                <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2 font-mono">
-
-                    ₦{{ number_format(Auth::user()->hold_wallet, 2) }} |
-<hr>
-
-                    ₦{{ number_format(Auth::user()->wallet, 2) }}
-
-                </a>
-            </div>
+    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: normal;">
+        <span style="color: red;">
+            ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
+        </span>
+        |
+        ₦{{ number_format(Auth::user()->wallet, 2) }}
+    </a>
+</div>
 
 
         </div>
