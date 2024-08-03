@@ -90,7 +90,7 @@
 
                     <div class="p-2 col-lg-6">
                         <input type="text" id="searchInput" class="form-control border-0"
-                               placeholder="Search for a service..." onkeyup="filterServices()">
+                               placeholder="Click here to Search for a service..." onkeyup="filterServices()">
                     </div>
 
 
@@ -110,21 +110,21 @@
                 <div x-data="{currentTab: 1}">
 
 
-                    <div class="flex justify-between pb-4 ">
-                        <div @click="currentTab = 1"
-                             class="button-gradient bg-gradient-to-r from-black to-black text-white text-sm font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
-                            USA 🇺🇸 Numbers (1)
-                        </div>
-                        <div @click="currentTab = 2"
-                             class="button-gradient bg-gradient-to-r from-black to-black text-white text-sm font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
-                            USA 🇺🇸 Numbers 2
-                        </div>
-                        <div @click="currentTab = 3"
-                             class="button-gradient bg-gradient-to-r from-black to-black text-white text-sm font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
-                            All Country Numbers
-                        </div>
+                <div class="flex justify-between pb-4">
+    <div @click="currentTab = 1"
+         class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
+        USA 🇺🇸 Numbers (1)
+    </div>
+    <div @click="currentTab = 2"
+         class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
+        USA 🇺🇸 Numbers 2
+    </div>
+    <div @click="currentTab = 3"
+         class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
+        All Country Numbers
+    </div>
+</div>
 
-                    </div>
 
 
                     <div x-show="currentTab === 1" style="height:200px; width:100%; overflow-y: scroll;" class="">
