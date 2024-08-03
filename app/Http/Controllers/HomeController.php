@@ -93,9 +93,9 @@ class HomeController extends Controller
             $cost2 = $data['get_rate'] * $innerValue + $data['margin'];
 
 
-            if ((int) Auth::user()->wallet < (int) $cost2) {
-                return back()->with('error', "Insufficient Funds");
-            }
+            // if ((int) Auth::user()->wallet < (int) $cost2) {
+            //     return back()->with('error', "Insufficient Funds");
+            // }
   
 
             $cost = $innerValue;
@@ -103,9 +103,9 @@ class HomeController extends Controller
 
             $order = create_order($service, $price, $cost, $service_name, $cost2);
 
-            // if ($order == 9) {
-            //     return redirect('home')->with('error', 'Insufficient Balance');
-            // }
+            if ($order == 9) {
+                return redirect('home')->with('error', 'Insufficient Balance');
+            }
 
             if ($order == 0) {
                 User::where('id', Auth::id())->increment('wallet', $price);

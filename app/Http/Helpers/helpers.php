@@ -308,9 +308,9 @@ function create_order($service, $price, $cost, $service_name, $cost2){
 
 
 
-    // if (Auth::user()->wallet < $price) {
-    //     return 9;
-    // }
+    if ((double) Auth::user()->wallet < (double) $price) {
+        return 9;
+    }
 
 
 
