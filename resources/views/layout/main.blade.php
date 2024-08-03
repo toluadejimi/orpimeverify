@@ -274,7 +274,7 @@
             </div>
             <div class="navbar-center d-none d-lg-block">
 
-                @if(Auth::user()->hold_wallet > 0)
+
 
                     <ul class="menu menu-horizontal px-1">
                         <a href="#" id="balance" class="btn btn-danger mr-2 font-mono">
@@ -283,7 +283,10 @@
 
                     </ul>
 
+
                 @endif
+
+
 
 
                 <ul class="menu menu-horizontal px-1">
@@ -301,9 +304,10 @@
             <div class="navbar-end d-block d-sm-none">
                 <a href="/fund-wallet" id="balance" class="btn btn-dark mr-2 font-mono">
 
-                    @if(Auth::user()->hold_wallet > 0)
-                        ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
-                    @endif| ₦{{ number_format(Auth::user()->wallet, 2) }}
+
+                        ₦{{ number_format(Auth::user()->hold_wallet, 2) }}  |
+
+                        ₦{{ number_format(Auth::user()->wallet, 2) }}
 
                 </a>
             </div>
