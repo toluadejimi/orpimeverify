@@ -276,7 +276,7 @@
 
 
                 <ul class="menu menu-horizontal px-1">
-                    <a href="#" id="balance" class="btn btn-danger mr-2 font-mono">
+                    <a href="#" id="balance" class="btn btn-danger mr3 font-mono">
                         ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
                     </a>
 
