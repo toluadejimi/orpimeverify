@@ -93,10 +93,10 @@ class HomeController extends Controller
             $cost2 = $data['get_rate'] * $innerValue + $data['margin'];
 
 
-            if (Auth::user()->wallet < $cost2) {
+            if ((int) Auth::user()->wallet < (int) $cost2) {
                 return back()->with('error', "Insufficient Funds");
             }
-
+  
 
             $cost = $innerValue;
             $price = $cost2;
