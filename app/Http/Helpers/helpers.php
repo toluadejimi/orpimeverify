@@ -375,6 +375,8 @@ function create_tellbot_order($service, $price, $cost){
 
     // dd($verification);
 
+
+
     $states = [
         'CA', 'TX', 'FL', 'NY', 'PA', 'IL', 'OH', 'GA', 'NC', 'MI',
         'NJ', 'VA', 'WA', 'AZ', 'MA', 'TN', 'IN', 'MO', 'MD', 'WI'

@@ -75,6 +75,8 @@ class HomeController extends Controller
 
         if($request->type == 1){
 
+
+
             $service = $request->service;
             $price = $request->price;
             $service_name = $request->name;
@@ -90,18 +92,20 @@ class HomeController extends Controller
 
             $cost2 = $data['get_rate'] * $innerValue + $data['margin'];
 
+
             if (Auth::user()->wallet < $cost2) {
                 return back()->with('error', "Insufficient Funds");
             }
 
-            User::where('id', Auth::id())->decrement('wallet',  $cost2);
+            if(Auth::user()->wallet > $cost2){
+                User::where('id', Auth::id())->decrement('wallet', $cost2);
+                User::where('id', Auth::id())->increment('hold_wallet', $cost2);
+            }
 
             $cost = $innerValue;
             $price = $cost2;
 
-
             $order = create_order($service, $price, $cost, $service_name);
-
 
             if ($order == 0) {
                 User::where('id', Auth::id())->increment('wallet', $price);
@@ -130,10 +134,7 @@ class HomeController extends Controller
 
         if($request->type == 2){
 
-
-            $service = $request->name;
-
-
+            $service = $request->service;
 
             $data['services'] = get_services();
             $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
@@ -144,12 +145,11 @@ class HomeController extends Controller
             $innerValue =  get_t_price($service);
             $cost2 = $data['get_rate2'] * $innerValue + $data['margin2'];
 
-
-            if (Auth::user()->wallet < $cost2) {
-                return back()->with('error', "Insufficient Funds");
+            if(Auth::user()->wallet > $cost2){
+                User::where('id', Auth::id())->decrement('wallet', $cost2);
+                User::where('id', Auth::id())->increment('hold_wallet', $cost2);
             }
 
-            User::where('id', Auth::id())->decrement('wallet',  $cost2);
 
             $cost = $innerValue;
             $price = $cost2;
@@ -157,8 +157,14 @@ class HomeController extends Controller
 
             $order = create_tellbot_order($service, $price, $cost);
 
+
+            if ($order == 9) {
+                return redirect('home')->with('error', 'Please contact admin');
+            }
+
             if ($order == 0) {
-                User::where('id', Auth::id())->increment('wallet', $price);
+                User::where('id', Auth::id())->decrement('hold_wallet', $cost2);
+                User::where('id', Auth::id())->increment('wallet', $cost2);
                 return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
             }
 
@@ -170,9 +176,6 @@ class HomeController extends Controller
 
 
         }
-
-
-
 
     }
 
@@ -301,12 +304,7 @@ class HomeController extends Controller
     public function cancle_sms(Request $request)
     {
 
-
         $order = Verification::where('id', $request->id)->first() ?? null;
-
-
-
-
         if ($order == null) {
             return redirect('home')->with('error', 'Order not found');
         }
@@ -314,6 +312,13 @@ class HomeController extends Controller
         if ($order->status == 2) {
             return redirect('home')->with('message', "Order Completed");
         }
+
+
+        if(Auth::user()->hold_wallet < $order->cost){
+            return redirect('home')->with('message', "Please Contact admin");
+        }
+
+
 
         if ($order->status == 1) {
 
@@ -325,8 +330,12 @@ class HomeController extends Controller
                 if($order->status == 1){
 
                     $amount = number_format($order->cost, 2);
-                    User::where('id', Auth::id())->increment('wallet', $order->cost);
                     Verification::where('id', $request->id)->delete();
+
+                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                    User::where('id', Auth::id())->increment('wallet', $order->cost);
+
+
                     $user = User::where('id', Auth::id())->first();
                     $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                     send_notification($message);
@@ -345,8 +354,10 @@ class HomeController extends Controller
 
             if ($can_order == 1) {
                 $amount = number_format($order->cost, 2);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
                 Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+
                 $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                 send_notification($message);
@@ -360,8 +371,9 @@ class HomeController extends Controller
                     return redirect('home')->with('error', "Please try again later");
                 }
                 $amount = number_format($order->cost, 2);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
                 Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
                 $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                 send_notification($message);
@@ -387,6 +399,13 @@ class HomeController extends Controller
             return redirect('home')->with('message', "Order Completed");
         }
 
+
+        if(Auth::user()->hold_wallet < $order->cost){
+            return redirect('home')->with('message', "Please Contact admin");
+        }
+
+
+
         if ($order->status == 1) {
 
             $orderID = $order->order_id;
@@ -398,6 +417,7 @@ class HomeController extends Controller
 
                     $amount = number_format($order->cost, 2);
                     Verification::where('order_id', $request->id)->delete();
+                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                     User::where('id', Auth::id())->increment('wallet', $order->cost);
                     $user = User::where('id', Auth::id())->first();
                     $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
@@ -419,6 +439,7 @@ class HomeController extends Controller
             if ($can_order == 1) {
                 $amount = number_format($order->cost, 2);
                 Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                 User::where('id', Auth::id())->increment('wallet', $order->cost);
                 $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
@@ -434,6 +455,7 @@ class HomeController extends Controller
                 }
                 $amount = number_format($order->cost, 2);
                 Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                 User::where('id', Auth::id())->increment('wallet', $order->cost);
                 $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
@@ -451,8 +473,6 @@ class HomeController extends Controller
         $order = Verification::where('order_id', $request->id)->first() ?? null;
 
 
-
-
         if ($order == null) {
             return redirect('home')->with('error', 'Order not found');
         }
@@ -460,6 +480,11 @@ class HomeController extends Controller
         if ($order->status == 2) {
             return redirect('home')->with('message', "Order Completed");
         }
+
+        if(Auth::user()->hold_wallet < $order->cost){
+            return redirect('home')->with('message', "Please Contact admin");
+        }
+
 
         if ($order->status == 1) {
 
@@ -472,6 +497,7 @@ class HomeController extends Controller
 
                     $amount = number_format($order->cost, 2);
                     Verification::where('order_id', $request->id)->delete();
+                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                     User::where('id', Auth::id())->increment('wallet', $order->cost);
                     $user = User::where('id', Auth::id())->first();
                     $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
@@ -493,6 +519,7 @@ class HomeController extends Controller
             if ($can_order == 1) {
                 $amount = number_format($order->cost, 2);
                 Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                 User::where('id', Auth::id())->increment('wallet', $order->cost);
                 $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
@@ -508,8 +535,8 @@ class HomeController extends Controller
                 }
                 $amount = number_format($order->cost, 2);
                 Verification::where('id', $request->id)->delete();
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
-                $user = User::where('id', Auth::id())->first();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);                $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                 send_notification($message);
                 return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
@@ -1440,10 +1467,14 @@ class HomeController extends Controller
         $code = $request->code;
         $country = $request->country;
         $receivedAt = $request->receivedAt;
-        $orders = Verification::where('order_id', $activationId)->update([
+        Verification::where('order_id', $activationId)->update([
             'sms' => $code,
             'status' => 2,
         ]);
+
+        $order = Verification::where('order_id', $activationId)->first();
+        User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+
 
 
         $message = json_encode($request->all());
@@ -1469,6 +1500,10 @@ public function tellaWebhook(Request $request)
             // Update the corresponding verification record
             $affectedRows = Verification::where('order_id', $request->id)->update(['phone' => $request->mdn]);
 
+            $order = Verification::where('order_id', $request->id)->first();
+            User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+
+
             if ($affectedRows > 0) {
                 // Log successful update
                 Log::info('Verification updated for order_id: ' . $request->id);
@@ -1476,12 +1511,13 @@ public function tellaWebhook(Request $request)
                 // Send a notification with all incoming data
                 $message = json_encode($request->all());
                 send_notification($message);
-
-                // Return a success response
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Webhook processed successfully.',
                 ], 200);
+
+
+
             } else {
                 // If no rows were updated, log the information
                 Log::warning('No verification record found for order_id: ' . $request->id);
@@ -1496,8 +1532,19 @@ public function tellaWebhook(Request $request)
             'sms' => $request->pin,
             'status' => 2,
             ]);
-        $message = json_encode($request->all());
-                send_notification($message);
+
+            $order = Verification::where('order_id', $request->id)->first();
+            $user = User::where('id', $order->user_id)->first() ?? null;
+            User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+
+            $message = $user->username. " has completed sms with id | ". $order->user_id. " \n".json_encode($request->all());
+            send_notification($message);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Webhook processed successfully.',
+            ], 200);
+
     }
         else {
             return response()->json([
@@ -1531,6 +1578,10 @@ public function simhook(Request $request) {
                     'sms' => $sms,
                     'status' => 2,
                 ]);
+
+                $order = Verification::where('order_id', $request->operation_id)->first();
+                User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+
             }
         }
     }catch (\Exception $e) {
@@ -1567,6 +1618,33 @@ public function simhook(Request $request) {
     {
 
         $order = Verification::where('id', $request->id)->first() ?? null;
+        $status = Verification::where('id', $request->id)->first()->status ?? null;
+
+
+        if ($status == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
 
         if ($order == null) {
             return redirect('home')->with('error', 'Order not found');

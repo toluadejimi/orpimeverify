@@ -169,16 +169,16 @@
                                                 </a>
                                             @endauth
 
-                                                <script>
-                                                    function hideButtondis(link) {
-                                                        // Hide the clicked link
-                                                        link.style.display = 'none';
+                                            <script>
+                                                function hideButtondis(link) {
+                                                    // Hide the clicked link
+                                                    link.style.display = 'none';
 
-                                                        setTimeout(function () {
-                                                            link.style.display = 'inline'; // or 'block' depending on your layout
-                                                        }, 5000); // 5 seconds
-                                                    }
-                                                </script>
+                                                    setTimeout(function () {
+                                                        link.style.display = 'inline'; // or 'block' depending on your layout
+                                                    }, 5000); // 5 seconds
+                                                }
+                                            </script>
 
                                         </div>
                                     @else
@@ -222,18 +222,16 @@
                                                 </a>
                                             @endauth
 
-                                                <script>
-                                                    function hideButtondon(link) {
-                                                        // Hide the clicked link
-                                                        link.style.display = 'none';
+                                            <script>
+                                                function hideButtondon(link) {
+                                                    // Hide the clicked link
+                                                    link.style.display = 'none';
 
-                                                        setTimeout(function () {
-                                                            link.style.display = 'inline'; // or 'block' depending on your layout
-                                                        }, 5000); // 5 seconds
-                                                    }
-                                                </script>
-
-
+                                                    setTimeout(function () {
+                                                        link.style.display = 'inline'; // or 'block' depending on your layout
+                                                    }, 5000); // 5 seconds
+                                                }
+                                            </script>
 
 
                                         </div>
@@ -303,16 +301,16 @@
                                             @endauth
 
 
-                                                <script>
-                                                    function hideButtonlop(link) {
-                                                        // Hide the clicked link
-                                                        link.style.display = 'none';
+                                            <script>
+                                                function hideButtonlop(link) {
+                                                    // Hide the clicked link
+                                                    link.style.display = 'none';
 
-                                                        setTimeout(function () {
-                                                            link.style.display = 'inline'; // or 'block' depending on your layout
-                                                        }, 5000); // 5 seconds
-                                                    }
-                                                </script>
+                                                    setTimeout(function () {
+                                                        link.style.display = 'inline'; // or 'block' depending on your layout
+                                                    }, 5000); // 5 seconds
+                                                }
+                                            </script>
 
                                         </div>
 
@@ -361,10 +359,6 @@
                                                                 class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
-
-
-
-
                                                 @endif
 
                                             @else
@@ -376,16 +370,16 @@
                                             @endauth
 
 
-                                                <script>
-                                                    function hideButtonppl(link) {
-                                                        // Hide the clicked link
-                                                        link.style.display = 'none';
+                                            <script>
+                                                function hideButtonppl(link) {
+                                                    // Hide the clicked link
+                                                    link.style.display = 'none';
 
-                                                        setTimeout(function () {
-                                                            link.style.display = 'inline'; // or 'block' depending on your layout
-                                                        }, 5000); // 5 seconds
-                                                    }
-                                                </script>
+                                                    setTimeout(function () {
+                                                        link.style.display = 'inline'; // or 'block' depending on your layout
+                                                    }, 5000); // 5 seconds
+                                                }
+                                            </script>
 
 
                                             {{--                                        <div class="col">--}}
@@ -522,15 +516,17 @@
                                     <span style="background: orange; border:0px; font-size: 10px"
                                           class="btn btn-warning btn-sm">Pending</span>
                                     @if($data->type == 'tella')
-                                        <a href="cancle-tella-sms?id={{ $data->order_id }}&delete=1"
+
+                                        <a onclick="hideButtondeletetella(this)"
+                                           href="cancle-tella-sms?id={{ $data->order_id }}&delete=1"
                                            style="background: rgb(168, 0, 14); border:0px; font-size: 10px"
                                            class="btn btn-warning btn-sm">Delete</span>
                                             @elseif($data->type == 'dailysms')
-                                                <a href="cancle-sms?id={{  $data->id }}&delete=1"
+                                                <a onclick="hideButtondeletetella(this)" href="cancle-sms?id={{  $data->id }}&delete=1"
                                                    style="background: rgb(168, 0, 14); border:0px; font-size: 10px"
                                                    class="btn btn-warning btn-sm">Delete</span>
                                                     @else
-                                                        <a href="cancel-online-sms?id={{  $data->order_id }}&delete=1"
+                                                        <a onclick="hideButtondeletetella(this)" href="cancel-online-sms?id={{  $data->order_id }}&delete=1"
                                                            style="background: rgb(168, 0, 14); border:0px; font-size: 10px"
                                                            class="btn btn-warning btn-sm">Delete</span>
                                                             @endif
@@ -538,6 +534,18 @@
                                                                 <span style="font-size: 10px;"
                                                                       class="text-white btn btn-success btn-sm">Completed</span>
                                     @endif
+
+
+                                                            <script>
+                                                                function hideButtondeletetella(link) {
+                                                                    // Hide the clicked link
+                                                                    link.style.display = 'none';
+
+                                                                    setTimeout(function () {
+                                                                        link.style.display = 'inline'; // or 'block' depending on your layout
+                                                                    }, 5000); // 5 seconds
+                                                                }
+                                                            </script>
 
                             </td>
                             <td style="font-size: 12px;">{{ $data->created_at }}</td>
