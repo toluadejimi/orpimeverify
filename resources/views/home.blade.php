@@ -77,14 +77,13 @@
         <!--       frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" -->
         <!--       allowfullscreen></iframe>-->
         <!--   <div class="row mt-5">-->
-        <br>
+       
         <!-- <iframe width="400" height="315" src="https://www.youtube.com/embed/d_TbY-_EuiM?si=Dp57PAS972qQzHqP"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br> -->
-
-        <!--<div class="col-lg-5 col-sm-12">-->
+  
+<div class="col-lg-5 col-sm-12"> -->
         <div class="card border-0 shadow-lg p-2 mb-3 bg-body rounded-40">
             <div class="card-body">
                 <div class="">
