@@ -135,7 +135,6 @@ class HomeController extends Controller
         if($request->type == 2){
 
             $service = $request->service;
-
             $data['services'] = get_services();
             $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
             $data['get_rate3'] = Setting::where('id', 1)->first()->rate_3;
@@ -1473,11 +1472,10 @@ class HomeController extends Controller
         ]);
 
         $order = Verification::where('order_id', $activationId)->first();
+        $user = User::where('id', $order->user_id)->first() ?? null;
         User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
 
-
-
-        $message = json_encode($request->all());
+        $message = $user->username. " has completed sms with id | ". $order->user_id. " \n".json_encode($request->all());
         send_notification($message);
 
 
@@ -1508,8 +1506,11 @@ public function tellaWebhook(Request $request)
                 // Log successful update
                 Log::info('Verification updated for order_id: ' . $request->id);
 
-                // Send a notification with all incoming data
-                $message = json_encode($request->all());
+                $order = Verification::where('order_id', $request->id)->first();
+                $user = User::where('id', $order->user_id)->first() ?? null;
+                User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+
+                $message = $user->username. " has completed sms with id | ". $order->user_id. " \n".json_encode($request->all());
                 send_notification($message);
                 return response()->json([
                     'status' => 'success',
