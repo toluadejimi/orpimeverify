@@ -396,7 +396,7 @@ function create_tellbot_order($service, $price, $cost, $cost2){
     $user = 'ibdloaded2';
     $curl = curl_init();
 
-    $markup = 20;
+    $markup = 30;
 
     curl_setopt_array($curl, array(
         CURLOPT_URL => "https://www.tellabot.com/sims/api_command.php?cmd=request&user={$user}&api_key={$APIKEY}&service={$service}&&markup={$markup}",
