@@ -156,6 +156,9 @@ class HomeController extends Controller
 
             $order = create_tellbot_order($service, $price, $cost, $cost2);
 
+            if ($order == 4) {
+                return redirect('home')->with('error', 'Number not available at the moment, Please try again later');
+            }
 
             if ($order == 9) {
                 return redirect('home')->with('error', 'Insufficient Balance');

@@ -428,6 +428,9 @@ function create_tellbot_order($service, $price, $cost, $cost2){
 
         //  dd($accessNumber);
 
+         if($accessNumber == null){
+             return 4;
+         }
 
          if(Auth::user()->wallet > $cost2){
              User::where('id', Auth::id())->decrement('wallet', $cost2);
