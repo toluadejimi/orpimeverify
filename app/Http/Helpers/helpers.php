@@ -47,7 +47,6 @@ function session_resolve_others($session_id, $ref){
 
 }
 
-
 function resolve_complete($order_id)
 {
 
@@ -79,7 +78,6 @@ function resolve_complete($order_id)
         return 500;
     }
 }
-
 
 
 function send_notification($message)
@@ -365,7 +363,7 @@ function create_order($service, $price, $cost, $service_name){
 
 }
 
-function create_tellbot_order($service, $price, $cost){
+function create_tellbot_order($service, $price, $cost, $cost2){
 
     // $verification = Verification::latest()->where('user_id', Auth::id())->where('status', 1)->first() ?? null;
 
@@ -420,6 +418,14 @@ function create_tellbot_order($service, $price, $cost){
          $phone = $result_d['mdn'];
 
         //  dd($accessNumber);
+
+
+         if(Auth::user()->wallet > $cost2){
+             User::where('id', Auth::id())->decrement('wallet', $cost2);
+             User::where('id', Auth::id())->increment('hold_wallet', $cost2);
+         }else{
+             return 9;
+         }
 
          $ver = new Verification();
          $ver->user_id = Auth::id();

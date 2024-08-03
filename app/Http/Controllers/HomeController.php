@@ -144,21 +144,23 @@ class HomeController extends Controller
             $innerValue =  get_t_price($service);
             $cost2 = $data['get_rate2'] * $innerValue + $data['margin2'];
 
-            if(Auth::user()->wallet > $cost2){
-                User::where('id', Auth::id())->decrement('wallet', $cost2);
-                User::where('id', Auth::id())->increment('hold_wallet', $cost2);
+
+            if(Auth::user()->wallet < $cost2){
+                return redirect('home')->with('error', 'Insufficient Balance');
+
             }
+
 
 
             $cost = $innerValue;
             $price = $cost2;
 
 
-            $order = create_tellbot_order($service, $price, $cost);
+            $order = create_tellbot_order($service, $price, $cost, $cost2);
 
 
             if ($order == 9) {
-                return redirect('home')->with('error', 'Please contact admin');
+                return redirect('home')->with('error', 'Insufficient Balance');
             }
 
             if ($order == 0) {
