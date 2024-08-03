@@ -96,7 +96,7 @@
 
 
                     <div class="row my-3 p-2"
-                         style="background: blue; border-radius: 10px; color: white; font-size: 15px; border-radius: 18px">
+                         style="background: blue; border-radius: 10px; color: white; font-size: 18px; border-radius: 15px">
                         <div class="col-7">
                             <h5>Services</h5>
                         </div>
