@@ -150,8 +150,6 @@ class HomeController extends Controller
 
             }
 
-
-
             $cost = $innerValue;
             $price = $cost2;
 
