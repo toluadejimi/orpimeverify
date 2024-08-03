@@ -9,14 +9,17 @@
 
     <div class="container ">
 
-        <div class="d-flex justify-content-center my-4 p-2 mt-5">
-            <h2 style="font-size: 18px; ">Welcome! {{ Auth::user()->username }}</h2>
-        </div>
+    <div class="d-flex flex-column align-items-center my-4 p-2 mt-5">
+    <h2 style="font-size: 18px; color: blue;">
+        Hi, {{ Auth::user()->username }}
+    </h2>
+    <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
+</div>
+
 
         <div class="d-flex justify-content-center mb-3 p-1">
 
-            <h4 style="color: ">If you use WhatsApp business u are on ur own ooo nah 50/50 chance of getting banned
-                ❌ </h4> <br>
+            
             <!--<h4 style="color: red;"><b>FOR OTHER COUNTRIES NUMBER CLICK ON SERVER 3</b></h4>-->
         </div>
         <!--  <div style="text-align: justify;">-->
