@@ -304,7 +304,7 @@ function getOnlineSimServices() {
 
 
 function create_order($service, $price, $cost, $service_name, $cost2){
-
+dd($service, $price, $cost, $service_name, $cost2);
 
 
 
