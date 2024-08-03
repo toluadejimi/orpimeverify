@@ -97,15 +97,15 @@ class HomeController extends Controller
                 return back()->with('error', "Insufficient Funds");
             }
 
-            if(Auth::user()->wallet > $cost2){
-                User::where('id', Auth::id())->decrement('wallet', $cost2);
-                User::where('id', Auth::id())->increment('hold_wallet', $cost2);
-            }
 
             $cost = $innerValue;
             $price = $cost2;
 
-            $order = create_order($service, $price, $cost, $service_name);
+            $order = create_order($service, $price, $cost, $service_name, $cost2);
+
+            if ($order == 9) {
+                return redirect('home')->with('error', 'Insufficient Balance');
+            }
 
             if ($order == 0) {
                 User::where('id', Auth::id())->increment('wallet', $price);

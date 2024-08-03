@@ -303,7 +303,7 @@ function getOnlineSimServices() {
 }
 
 
-function create_order($service, $price, $cost, $service_name){
+function create_order($service, $price, $cost, $service_name, $cost2){
 
 
 
@@ -339,6 +339,14 @@ function create_order($service, $price, $cost, $service_name){
         $accessNumber = $parts[0];
         $id = $parts[1];
         $phone = $parts[2];
+
+        if(Auth::user()->wallet > $cost2){
+            User::where('id', Auth::id())->decrement('wallet', $cost2);
+            User::where('id', Auth::id())->increment('hold_wallet', $cost2);
+        }else{
+            return 9;
+        }
+
 
         $ver = new Verification();
         $ver->user_id = Auth::id();
