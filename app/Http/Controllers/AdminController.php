@@ -224,6 +224,8 @@ class AdminController extends Controller
         if($request->trade == 'credit'){
             User::where('id',$request->id)->increment('wallet', $request->amount);
 
+            User::where('id',$request->id)->increment('hold_wallet', $request->hold);
+
             $user = User::where('id',$request->id)->first();
             $message = $user->email . "| just funded by |  NGN " . number_format($request->amount) . " | on OPRIME VERIFY";
             send_notification($message);

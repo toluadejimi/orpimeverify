@@ -320,6 +320,15 @@
 
                                                     </div>
 
+                                                    <div class="col-6">
+
+                                                        <label>Enter Amount (NGN)</label>
+                                                        <input type="number" class="form-control2 text-dark"
+                                                               name="hold" required>
+
+                                                    </div>
+
+
                                                     <div class="col-4">
 
                                                         <label>Pin</label>
