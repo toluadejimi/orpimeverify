@@ -1502,7 +1502,7 @@ public function tellaWebhook(Request $request)
             $affectedRows = Verification::where('order_id', $request->id)->update(['phone' => $request->mdn]);
 
             $order = Verification::where('order_id', $request->id)->first();
-            User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+            // User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
 
 
             if ($affectedRows > 0) {
@@ -1511,7 +1511,7 @@ public function tellaWebhook(Request $request)
 
                 $order = Verification::where('order_id', $request->id)->first();
                 $user = User::where('id', $order->user_id)->first() ?? null;
-                User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
+                // User::where('id', $order->user_id)->decrement('hold_wallet', $order->cost);
 
                 $message = $user->username. " has completed sms with id | ". $order->user_id. " \n".json_encode($request->all());
                 send_notification($message);
