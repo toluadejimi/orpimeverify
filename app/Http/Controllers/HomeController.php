@@ -164,11 +164,11 @@ class HomeController extends Controller
                 return redirect('home')->with('error', 'Insufficient Balance');
             }
 
-            if ($order == 0) {
-                User::where('id', Auth::id())->decrement('hold_wallet', $cost2);
-                User::where('id', Auth::id())->increment('wallet', $cost2);
-                return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-            }
+            // if ($order == 0) {
+            //     User::where('id', Auth::id())->decrement('hold_wallet', $cost2);
+            //     User::where('id', Auth::id())->increment('wallet', $cost2);
+            //     return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+            // }
 
 
             if ($order == 1) {
