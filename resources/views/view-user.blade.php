@@ -322,7 +322,7 @@
 
                                                     <div class="col-6">
 
-                                                        <label>Enter Amount (NGN)</label>
+                                                        <label>Enter Amount for Hold Wallet (NGN)</label>
                                                         <input type="number" class="form-control2 text-dark"
                                                                name="hold" required>
 
