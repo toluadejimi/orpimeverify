@@ -306,12 +306,14 @@ function getOnlineSimServices() {
 function create_order($service, $price, $cost, $service_name, $cost2){
 // dd($service, $price, $cost, $service_name, $cost2,(int) auth()->user()->wallet);
 
+// if ((int) Auth::user()->wallet <(int) $price) {
+//     return 9;
 
 
     if ((int) Auth::user()->wallet <(int) $price) {
         return 9;
+    
     }
-
 
 
    $APIKEY = env('KEY');
