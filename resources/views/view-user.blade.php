@@ -274,6 +274,12 @@
                                             NGN {{number_format($user->wallet, 2)}}
 
 
+                                        </div>  <div class="card-body p-3">
+                                            <h5 class="">Hold Wallet</h5>
+
+
+                                            NGN {{number_format($user->hold_wallet, 2)}}
+                                            
                                         </div>
                                     </div>
 
