@@ -1131,6 +1131,10 @@ class HomeController extends Controller
 
 
             $user = Auth::id() ?? null;
+
+            send_notification("user" . " ". auth()->user()->username ." werey just login");
+
+
             return redirect('home');
         }
 

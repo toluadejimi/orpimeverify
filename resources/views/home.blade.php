@@ -161,7 +161,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondis(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy </button>
                                                     </form>
 
                                                 @endif
@@ -214,7 +214,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondon(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy</button>
                                                     </form>
 
                                                 @endif
@@ -292,7 +292,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonlop(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy</button>
                                                     </form>
 
                                                 @endif
@@ -361,7 +361,7 @@
                                                         <button class="myButton" type="submit"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonppl(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy</button>
                                                     </form>
 
                                                 @endif
