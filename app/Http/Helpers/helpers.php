@@ -308,7 +308,7 @@ function create_order($service, $price, $cost, $service_name, $cost2){
 
 
 
-    if ((float) Auth::user()->wallet <$price) {
+    if ((int) Auth::user()->wallet <(int) $price) {
         return 9;
     }
 
