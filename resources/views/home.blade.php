@@ -15,18 +15,18 @@
             Hi, {{ Auth::user()->username }} 👋
         </h2>
         <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
-    </div>
-</div>
-
-<div class="container">
-    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
+        <br>
+        <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
         <span style="color:orange;">
             ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
         </span> |
         
         ₦{{ number_format(Auth::user()->wallet, 2) }}
     </a>
+    </div>
 </div>
+
+
 
         <div class="d-flex justify-content-center mb-3 p-1">
 
