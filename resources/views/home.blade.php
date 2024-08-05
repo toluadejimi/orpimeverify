@@ -18,7 +18,15 @@
     </div>
 </div>
 
-
+<div class="container">
+    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
+        <span style="color:orange;">
+            ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
+        </span> |
+        
+        ₦{{ number_format(Auth::user()->wallet, 2) }}
+    </a>
+</div>
 
         <div class="d-flex justify-content-center mb-3 p-1">
 
