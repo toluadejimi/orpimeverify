@@ -338,10 +338,13 @@
             <div class="navbar-end">
 
 
-                <a href="/home/wallet" id="balance" class="btn btn-dark mr-2 font-mono">
-                    ₦{{ number_format(Auth::user()->wallet, 2) }}
-
-                </a>
+            <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
+        <span style="color:orange;">
+            ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
+        </span> |
+        
+        ₦{{ number_format(Auth::user()->wallet, 2) }}
+    </a>
 
                 <a class="btn btn-outline sm:flex" href="log-out">Log out</a>
             </div>
