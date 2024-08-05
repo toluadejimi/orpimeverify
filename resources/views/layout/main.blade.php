@@ -276,7 +276,7 @@
 
 
                 <ul class="menu menu-horizontal px-1">
-                    <a href="#" id="balance" class="btn btn-primary mr-2 font-mono">
+                    <a href="#" id="balance" class="btn btn-danger mr-2 font-mono">
                         ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
                     </a>
 
@@ -296,8 +296,8 @@
 
 
             <div class="navbar-end d-block d-sm-none">
-    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
-        <span style="color:#ffa500;">
+    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: normal;">
+        <span style="color: red;">
             ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
         </span> |
         
