@@ -275,12 +275,12 @@
             <div class="navbar-center d-none d-lg-block">
 
 
-                <ul class="menu menu-horizontal px-1">
-                    <a href="#" id="balance" class="btn btn-danger mr-2 font-mono">
-                        ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
-                    </a>
+            <ul class="menu menu-horizontal px-1">
+    <a href="#" id="balance" class="btn mr-2 font-mono" style="background-color: orange; color: white;">
+        ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
+    </a>
+</ul>
 
-                </ul>
 
 
                 <ul class="menu menu-horizontal px-1">
