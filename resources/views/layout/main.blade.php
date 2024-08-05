@@ -296,7 +296,7 @@
 
 
             <div class="navbar-end d-block d-sm-none">
-    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
+    <a href="/fund-wallet" id="balance" class="btn btn-primary mr-1" style="font-weight: bold;">
         <span style="color:orange;">
             ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
         </span> |
