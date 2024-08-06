@@ -276,18 +276,26 @@
 
 
                 <ul class="menu menu-horizontal px-1">
-                    <a href="#" id="balance" class="btn btn-danger mr-2 font-mono">
-                        ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
-                    </a>
+                <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
+        <span style="color:orange;">
+            ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
+        </span> |
+        
+        ₦{{ number_format(Auth::user()->wallet, 2) }}
+    </a>
 
                 </ul>
 
 
                 <ul class="menu menu-horizontal px-1">
 
-                    <a href="/fund-wallet" id="balance" class="btn btn-danger mr-2 font-mono">
-                        ₦{{ number_format(Auth::user()->wallet, 2) }}
-                    </a>
+                <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
+        <span style="color:orange;">
+            ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
+        </span> |
+        
+        ₦{{ number_format(Auth::user()->wallet, 2) }}
+    </a>
 
                 </ul>
 
