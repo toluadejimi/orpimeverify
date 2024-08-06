@@ -268,7 +268,7 @@ class AdminController extends Controller
 
 
 
-    public function view_user(request $request)
+    public function view_user($id)
 	{
 
         $role = User::where('id', Auth::id())->first()->role_id ?? null;
@@ -281,9 +281,9 @@ class AdminController extends Controller
         }
 
 
-        $user = User::where('id', $request->id)->first();
-        $transaction= Transaction::latest()->where('user_id', $request->id)->paginate(10);
-        $verification = verification::latest()->where('user_id', $request->id)->paginate(10);
+        $user = User::where('id', $id)->first();
+        $transaction= Transaction::latest()->where('user_id', $id)->paginate(10);
+        $verification = verification::latest()->where('user_id', $id)->paginate(10);
 
 
         return view('view-user', compact('user', 'transaction','verification' ));

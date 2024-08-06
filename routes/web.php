@@ -149,7 +149,7 @@ Route::any('policy', [HomeController::class, 'policy']);
 
 
 Route::get('users', [AdminController::class, 'index_user']);
-Route::get('view-user', [AdminController::class, 'view_user']);
+Route::get('view-user/{id}', [AdminController::class, 'view_user']);
 Route::any('update-user', [AdminController::class, 'update_user']);
 Route::any('update-user_custom', [AdminController::class, 'update_user_custom']);
 Route::any('remove-user', [AdminController::class, 'remove_user']);

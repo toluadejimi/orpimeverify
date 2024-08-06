@@ -231,10 +231,10 @@
                                                     @forelse ($users as $data)
 
                                                     <tr>
-                                                        <td><a href="view-user?id={{ $data->id }}">{{ $data->username }}</a> </td>
-                                                        <td><a href="view-user?id={{ $data->id }}">{{ $data->email }} </td></a>
+                                                        <td><a href="view-user/{{ $data->id }}">{{ $data->username }}</a> </td>
+                                                        <td><a href="view-user/{{ $data->id }}">{{ $data->email }} </td></a>
                                                         <td>{{ number_format($data->wallet, 2) }} </td>
-                                                        <td><a href="view-user?id={{ $data->id }}" class="btn btn-success btn-sm">View User</a> </td>
+                                                        <td><a href="view-user/{{ $data->id }}" class="btn btn-success btn-sm">View User</a> </td>
                                                         <td><a href="remove-user?id={{ $data->id }}" class="btn btn-danger btn-sm">Delete User</a> </td>
 
 
