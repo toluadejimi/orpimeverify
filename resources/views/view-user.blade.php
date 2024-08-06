@@ -245,7 +245,7 @@
                                             <h5 class="">Username</h5>
 
 
-                                            {{$user->username}}
+                                            {{$user->username ?? ''}}
 
 
                                         </div>
@@ -258,7 +258,7 @@
                                             <h5 class="">Email</h5>
 
 
-                                            {{$user->email}}
+                                            {{$user->email ?? ''}}
 
 
                                         </div>
