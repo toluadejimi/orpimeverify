@@ -255,10 +255,10 @@ class HomeController extends Controller
             return redirect('home')->with('error', 'Error occurred, Please try again');
         }
 
-        if ($order == 1) {
-
-            User::where('id', Auth::id())->decrement('hold_wallet', $cost);
+        if ($order == 0) {
             User::where('id', Auth::id())->increment('wallet', $cost);
+            User::where('id', Auth::id())->decrement('hold_wallet', $cost);
+           
 
             $data['services'] = get_tellbot_service();
             $data['get_rate'] = Setting::where('id', 1)->first()->rate;
