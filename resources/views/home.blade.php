@@ -16,6 +16,8 @@
         </h2>
         <p style="font-size: 16px; color: orange;">Welcome to OprimeVerify</p>
         <span>Total Verified Numbers: {{ $TotalVerifiedNumbers }}</span> 
+        <span>Total Deposits: {{ $totaldeposits }}</span>
+
            
     </div>
 </div>
