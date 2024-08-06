@@ -19,26 +19,6 @@
            
     </div>
 </div>
-<div class="col-xl-4 col-md-6 col-sm-6">
-                <div class="custom--card-two">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div>
-                       
-                                <h4 class="my-1">{{ $general->cur_sym }}{{ showAmount(@$widget['total_payments']) }}
-                                </h4>
-            
-                            </div>
-                            <span class="widgets-icons-2 ms-auto">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </span>
-                            <a href="" class="has-anchor"></a>
-                        </div>
-                        <a href="https://oprimeaccs.com/account/products" class="btn btn-warning w-100 mt-1"
-                        id="btn-confirm"></a>
-                    </div>
-                </div>
-            </div>
 
 
 
