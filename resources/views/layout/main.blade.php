@@ -120,76 +120,25 @@
         //     });
         // </script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const table = document.getElementById('data-table');
-            const rows = table.querySelectorAll('tbody tr');
-
-            rows.forEach(row => {
-                const countdownElement = row.cells[2]; // Assumes "Expires" is in the third column (index 2)
-                let seconds = parseInt(countdownElement.getAttribute('data-seconds'), 10);
-
-                const countdownInterval = setInterval(function () {
-                    countdownElement.textContent = seconds + 's';
-
-                    if (seconds <= 0) {
-                        clearInterval(countdownInterval);
-                        // Add your logic to handle the expiration, e.g., sendPostRequest(row);
-                        console.log('Expired:', row);
-                    }
-
-                    seconds--;
-                }, 1000);
-            });
-
-            // You may add the sendPostRequest function here or modify the code accordingly
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            //change selectboxes to selectize mode to be searchable
-            $("select").select2();
-        });
-    </script>
-
-
-    <style>
-        .float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #000000;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-        }
-
-        .my-float {
-            margin-top: 16px;
-        }
-    </style>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <a href="https://t.me/+fTn69pDmZuc1MjM0" class="float" target="_blank">
-        <i class="fa fa-comment my-float"></i>
-    </a>
-
-
-    <script>
-        .modal - backdrop
-        {
-            z - index
-        :
-            -1;
-        }
-    </script>
+<script src="{{ url('') }}/public/concept/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="{{ url('') }}/public/concept/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="{{ url('') }}/public/concept/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="{{ url('') }}/public/concept/assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <!-- sparkline js -->
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- morris js -->
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/morris-bundle/morris.js"></script>
+    <!-- chart c3 js -->
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="{{ url('') }}/public/concept/assets/vendor/charts/c3charts/C3chartjs.js"></script>
+    <script src="{{ url('') }}/public/concept/assets/libs/js/dashboard-ecommerce.js"></script>
 
 
     <div class="bg-base-100 border-t mt-5 p-5">
