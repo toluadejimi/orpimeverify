@@ -235,30 +235,44 @@ class HomeController extends Controller
         //     return redirect('home');
         // }
 
-        if ($order == 0) {
-            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-        }
+       // Check if the order can be processed
+if ($order == 0) {
+    return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+}
 
-        if ($order == 0) {
-            $message = "TWBNUMBER | Low balance";
-            send_notification($message);
+// Assuming `$order` can also be a state where SMS has been dropped
+if ($order == 2) {
+    $message = "TWBNUMBER | Error";
+    send_notification($message);
 
+    return redirect('home')->with('error', 'Error occurred, Please try again');
+}
 
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
+// Process the order: move cost from wallet to hold_wallet
+if ($order == 1) {
+    // Retrieve the current user
+    $userId = Auth::id();
 
-        if ($order == 0) {
-            $message = "TWBNUMBER | Error";
-            send_notification($message);
+    // Move the cost from wallet to hold_wallet
+    User::where('id', $userId)->decrement('wallet', $cost);
+    User::where('id', $userId)->increment('hold_wallet', $cost);
 
+    return redirect('home')->with('success', 'Order placed successfully');
+}
 
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
+// Handle the scenario where the SMS is dropped and permanently remove cost
+if ($order == 3) {
+    // Retrieve the current user
+    $userId = Auth::id();
 
-        if ($order == 1) {
-            User::where('id', Auth::id())->increment('wallet', $cost);
-            User::where('id', Auth::id())->decrement('hold_wallet', $cost);
-           
+    // Permanently remove the cost from hold_wallet
+    User::where('id', $userId)->decrement('hold_wallet', $cost);
+
+    $message = "TWBNUMBER | Low balance";
+    send_notification($message);
+
+    return redirect('home')->with('success', 'SMS sent and cost deducted');
+}
 
             $data['services'] = get_tellbot_service();
             $data['get_rate'] = Setting::where('id', 1)->first()->rate;
