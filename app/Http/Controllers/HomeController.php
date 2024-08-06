@@ -235,24 +235,18 @@ class HomeController extends Controller
         //     return redirect('home');
         // }
 
+        if ($order == 9) {
+            return redirect('home')->with('error', 'Insufficient fund');
+        }
+
         if ($order == 0) {
+            // User::where('id', Auth::id())->increment('wallet', $price);
             return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
         }
 
-        if ($order == 0) {
-            $message = "TWBNUMBER | Low balance";
-            send_notification($message);
 
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
-
-        if ($order == 0) {
-            $message = "TWBNUMBER | Error";
-            send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
+        if ($order == 1) {
+            return redirect('home')->with('message', 'Order Placed');
         }
 
         if ($order == 1) {
