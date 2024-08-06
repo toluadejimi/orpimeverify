@@ -14,7 +14,7 @@
         <h2 style="font-size: 24px; color: blue; margin: 0;">
             Hi, {{ Auth::user()->username }} 👋
         </h2>
-        <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
+        <p style="font-size: 16px; color: orange;">Welcome to OprimeVerify</p>
 
            
     </div>
