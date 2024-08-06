@@ -16,7 +16,12 @@
         </h2>
         <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
         <br>
-        <button class="btn btn-primary wallet-btn d-flex align-items-center me-2">
+        <!-- Include Bootstrap CSS in your <head> section -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Wallet Button with Add Funds Button -->
+<div class="d-flex align-items-center">
+    <button class="btn btn-primary wallet-btn d-flex align-items-center me-2">
         <i class="bi bi-wallet2 me-2"></i>
         <span class="wallet-amount">
             ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
@@ -26,6 +31,65 @@
             ₦{{ number_format(Auth::user()->wallet, 2) }}
         </span>
     </button>
+
+    <button class="btn btn-outline-secondary add-funds-btn">
+        Add Funds
+    </button>
+</div>
+
+<!-- Include Bootstrap Icons in your <head> section for wallet icon -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<!-- Add this CSS to your <style> section or a separate CSS file -->
+<style>
+    .wallet-btn {
+        background-color: #1e1e1e;
+        color: white;
+        border: 2px solid #e90505;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-weight: bold;
+    }
+
+    .wallet-btn i {
+        font-size: 20px;
+    }
+
+    .wallet-amount {
+        font-size: 1rem;
+        color: orange;
+    }
+
+    .divider {
+        margin: 0 8px;
+    }
+
+    .add-funds-btn {
+        background-color: #e90505;
+        color: white;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-weight: bold;
+    }
+
+    .add-funds-btn:hover {
+        background-color: #c70000;
+        border-color: #c70000;
+    }
+
+    /* Adjust spacing between buttons on smaller screens */
+    @media (max-width: 576px) {
+        .d-flex {
+            flex-direction: column;
+        }
+
+        .me-2 {
+            margin-right: 0 !important;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+
     </div>
 </div>
 
