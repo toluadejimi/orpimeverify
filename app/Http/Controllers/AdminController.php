@@ -128,7 +128,7 @@ class AdminController extends Controller
         $data['verification'] = Verification::latest()->paginate(10);
         $alluser = Transaction::all();
         foreach($alluser as $user) {
-            dd($user->sum('amount'));
+            dd($user);
         }
 
 
