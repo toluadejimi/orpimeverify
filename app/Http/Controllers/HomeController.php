@@ -1632,14 +1632,14 @@ public function simhook(Request $request) {
     
         if ($order->status == 2) {
             $order->delete();
-            return back()->with('message', "Order has been successfully deleted");
+            return back()->with('message', 'Order has been successfully deleted');
         }
     
         $orderID = $order->order_id;
         $can_order = cancel_order($orderID);
     
         if ($can_order == 0) {
-            return back()->with('error', "Please wait and try again later");
+            return back()->with('error', 'Please wait and try again later');
         }
     
         if ($can_order == 1 || $can_order == 3) {
@@ -1655,17 +1655,21 @@ public function simhook(Request $request) {
         $order = Verification::where('id', $request->id)->first();
     
         if ($order === null) {
-            return back()->with('message', "Order not found");
+            return back()->with('message', 'Order not found');
         }
     
         if ($order->status == 2 || $order->status == 1) {
             $orderID = $order->order_id;
             $can_order = cancel_order($orderID);
     
-            if ($can_order == 0 || $can_order == 1 || $can_order == 3) {
-                $order->delete();
-                return back()->with('message', "Order has been canceled");
+            // Always delete the order
+            $order->delete();
+    
+            if ($can_order == 0) {
+                return back()->with('message', 'Order has been canceled');
             }
+    
+            return back()->with('message', 'Order has been canceled');
         }
     }
     
@@ -1727,14 +1731,12 @@ public function simhook(Request $request) {
     
         if ($user === null) {
             return response()->json([
-                'username' => "Not Found, Please try again"
+                'username' => 'Not Found, Please try again',
             ]);
         }
     
         return response()->json([
-            'username' => $user->username
+            'username' => $user->username,
         ]);
     }
-    
-
-}
+}    
