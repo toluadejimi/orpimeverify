@@ -87,7 +87,7 @@
 <div class="container">
     <div class="login-card">
         <div class="logo">
-            <img src="https://no1smsace.com/images/logo_dark.png" alt="logo">
+            <img src="https://oprime.com.ng/mailer/wp-content/uploads/2024/04/IMG_0359.png" alt="logo" height="50" width="100" alt="logo">
         </div>
         <h2 class="text-center mb-4" style="color: #ffa700;">Login</h2>
         <!-- Error and Message Alerts -->
