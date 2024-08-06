@@ -16,7 +16,7 @@
         </h2>
         <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
 
-        
+           
     </div>
 </div>
 
