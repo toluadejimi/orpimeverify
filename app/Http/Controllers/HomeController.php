@@ -54,7 +54,7 @@ class HomeController extends Controller
         $data['verification'] = Verification::latest()->where('user_id', Auth::id())->paginate('10');
         $data['order'] = 0;
      $data['TotalVerifiedNumbers'] = Verification::where('user_id', Auth::id())->count();
-     $data['totaldeposits'] = User::where('id', Auth::id())->sum("wallet");
+     $data['totaldeposits'] = Transaction::where('user_id', Auth::id())->sum("amount");
 
         return view('home', $data);
     }
