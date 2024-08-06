@@ -255,7 +255,7 @@ class HomeController extends Controller
             return redirect('home')->with('error', 'Error occurred, Please try again');
         }
 
-        if ($order == 0) {
+        if ($order == 1) {
             User::where('id', Auth::id())->increment('wallet', $cost);
             User::where('id', Auth::id())->decrement('hold_wallet', $cost);
            
