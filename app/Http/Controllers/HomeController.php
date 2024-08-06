@@ -235,26 +235,44 @@ class HomeController extends Controller
         //     return redirect('home');
         // }
 
-        if ($order == 9) {
-            return redirect('home')->with('error', 'Insufficient Balance');
-        }
-
         if ($order == 0) {
-            User::where('id', Auth::id())->decrement('hold_wallet', $cost2);
-            User::where('id', Auth::id())->increment('wallet', $cost2);
             return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
         }
 
+        if ($order == 0) {
+            $message = "TWBNUMBER | Low balance";
+            send_notification($message);
 
-        if ($order == 1) {
-            return redirect('home')->with('message', 'Order Placed');
+
+            return redirect('home')->with('error', 'Error occurred, Please try again');
         }
 
+        if ($order == 0) {
+            $message = "TWBNUMBER | Error";
+            send_notification($message);
 
 
+            return redirect('home')->with('error', 'Error occurred, Please try again');
+        }
+
+        if ($order == 1) {
+
+            User::where('id', Auth::id())->decrement('hold_wallet', $cost);
+            User::where('id', Auth::id())->increment('wallet', $cost);
+
+            $data['services'] = get_tellbot_service();
+            $data['get_rate'] = Setting::where('id', 1)->first()->rate;
+            $data['margin'] = Setting::where('id', 1)->first()->margin;
+            $data['sms_order'] = Verification::where('user_id', Auth::id())->where('status' , 1)->latest()->first();
+            $data['order'] = 1;
+
+            $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
+
+            return redirect('home')->with('message', 'Order Placed');
+
+            // return view('receivesmstella', $data);
+        }
     }
-
-}
 
 
 
