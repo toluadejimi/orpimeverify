@@ -22,7 +22,7 @@
     <div style="flex: 1; padding: 10px; background-color: blue; color: white; font-weight: bold;">
         <span>Purchased Numbers: {{ number_format($TotalVerifiedNumbers) }}</span>
     </div>
-    <div style="flex: 1; padding: 10px; background-color: orange; color: white; font-weight: bold;">
+    <div style="flex: 1; padding: 10px; background-color: orange; color: white; font-weight: bold; font: size 10px;">
     <span>Total Deposits: ₦ {{ number_format($totaldeposits) }}</span>
 </div>
 
