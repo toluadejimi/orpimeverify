@@ -53,9 +53,7 @@ class HomeController extends Controller
         $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
         $data['verification'] = Verification::latest()->where('user_id', Auth::id())->paginate('10');
         $data['order'] = 0;
-
-
-
+     $data['TotalVerifiedNumbers'] = Verification::where('user_id', Auth::id())->count();
 
         return view('home', $data);
     }
