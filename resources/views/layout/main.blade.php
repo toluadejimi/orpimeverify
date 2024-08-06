@@ -128,26 +128,65 @@
 
                         @yield('content')
 
+                        <script data-turbo-eval="false" data-turbolinks-eval="false">
+        //     window.livewire = new Livewire();
+        //     window.Livewire = window.livewire;
+        //     window.livewire_app_url = '';
+        //     window.livewire_token = 'JBt4aOzGju0YuBweWShPMRkAkmVxvzZzG4XOMx7V';
+        //     window.deferLoadingAlpine = function(callback) {
+        //         window.addEventListener('livewire:load', function() {
+        //             callback();
+        //         });
+        //     };
+        //     let started = false;
+        //     window.addEventListener('alpine:initializing', function() {
+        //         if (!started) {
+        //             window.livewire.start();
+        //             started = true;
+        //         }
+        //     });
+        //     document.addEventListener("DOMContentLoaded", function() {
+        //         if (!started) {
+        //             window.livewire.start();
+        //             started = true;
+        //         }
+        //     });
+        // </script>
 
-                        <script src="{{ url('') }}/public/concept/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <!-- bootstap bundle js -->
-    <script src="{{ url('') }}/public/concept/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <!-- slimscroll js -->
-    <script src="{{ url('') }}/public/concept/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
-    <!-- main js -->
-    <script src="{{ url('') }}/public/concept/assets/libs/js/main-js.js"></script>
-    <!-- chart chartist js -->
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
-    <!-- sparkline js -->
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
-    <!-- morris js -->
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/morris-bundle/morris.js"></script>
-    <!-- chart c3 js -->
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/c3charts/c3.min.js"></script>
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-    <script src="{{ url('') }}/public/concept/assets/vendor/charts/c3charts/C3chartjs.js"></script>
-    <script src="{{ url('') }}/public/concept/assets/libs/js/dashboard-ecommerce.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.getElementById('data-table');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const countdownElement = row.cells[2]; // Assumes "Expires" is in the third column (index 2)
+                let seconds = parseInt(countdownElement.getAttribute('data-seconds'), 10);
+
+                const countdownInterval = setInterval(function () {
+                    countdownElement.textContent = seconds + 's';
+
+                    if (seconds <= 0) {
+                        clearInterval(countdownInterval);
+                        // Add your logic to handle the expiration, e.g., sendPostRequest(row);
+                        console.log('Expired:', row);
+                    }
+
+                    seconds--;
+                }, 1000);
+            });
+
+            // You may add the sendPostRequest function here or modify the code accordingly
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            //change selectboxes to selectize mode to be searchable
+            $("select").select2();
+        });
+    </script>
+
 
     <style>
         .float {
@@ -184,6 +223,7 @@
             -1;
         }
     </script>
+
 
     <div class="bg-base-100 border-t mt-5 p-5">
         <footer class="d-flex justify-content-center ">
