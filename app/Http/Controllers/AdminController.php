@@ -133,8 +133,7 @@ class AdminController extends Controller
                ->orderByDesc('total_deposit')
                ->limit(5)
                ->get();
-
-        dd($topUsers);
+        $data['topusers'] = $topUsers;
 
 
         return view('admin-dashboard', $data);
