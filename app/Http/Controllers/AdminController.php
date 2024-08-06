@@ -18,6 +18,7 @@ use App\Models\ManualPayment;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -126,10 +127,14 @@ class AdminController extends Controller
         $data['margin'] = Setting::where('id', 1)->first()->margin;
         $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
         $data['verification'] = Verification::latest()->paginate(10);
-        $alluser = Transaction::all();
-        foreach($alluser as $user) {
-            dd($user);
-        }
+        $topUsers = User::select('users.*', DB::raw('SUM(transactions.amount) as total_deposit'))
+               ->join('transactions', 'users.id', '=', 'transactions.user_id')
+               ->groupBy('users.id')
+               ->orderByDesc('total_deposit')
+               ->limit(5)
+               ->get();
+
+        dd($topUsers);
 
 
         return view('admin-dashboard', $data);
