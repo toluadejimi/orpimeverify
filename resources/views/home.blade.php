@@ -161,8 +161,7 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c"><i
-                                                    class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
-
+                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
                                                 @else
                                                     <form action="order-usordernumberno" method="post">
@@ -214,8 +213,7 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c">
-                                                        <i class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
-
+                                                        <i class="bi bi-wallet-fill"> Fund Wallet</i>
 
                                                     </a>
 
@@ -295,8 +293,7 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c"><i
-                                                    class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
-
+                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
                                                 @else
                                                     <form action="order-usasecound" method="post">
