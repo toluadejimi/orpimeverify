@@ -161,7 +161,8 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c"><i
-                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
+                                                    class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
+
 
                                                 @else
                                                     <form action="order-usordernumberno" method="post">
@@ -174,7 +175,8 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondis(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy </button>
+                                                                class="fa fa-shopping-bag" style="color: orange; font-weight: bold;">Buy</button>
+
                                                     </form>
 
                                                 @endif
@@ -212,7 +214,8 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c">
-                                                        <i class="bi bi-wallet-fill"> Fund Wallet</i>
+                                                        <i class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
+
 
                                                     </a>
 
@@ -227,7 +230,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondon(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy</button>
+                                                                class="fa fa-shopping-bag" style="color: orange; font-weight: bold;">Buy</button>
                                                     </form>
 
                                                 @endif
@@ -292,7 +295,8 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c"><i
-                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
+                                                    class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
+
 
                                                 @else
                                                     <form action="order-usasecound" method="post">
@@ -305,7 +309,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonlop(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy</button>
+                                                                class="fa fa-shopping-bag" style="color: orange; font-weight: bold;">Buy</button>
                                                     </form>
 
                                                 @endif
@@ -361,7 +365,7 @@
                                                 @if(Auth::user()->wallet < $cost)
 
                                                     <a href="fund-wallet" style="color: #7c7c7c"><i
-                                                            class="bi bi-wallet-fill"> Fund Wallet</i></a>
+                                                    class="bi bi-wallet-fill" style="color: blue;">Fund Wallet</a>
 
                                                 @else
                                                     <form id="orderForm" action="order-usasecound" method="post">
@@ -374,7 +378,7 @@
                                                         <button class="myButton" type="submit"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonppl(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy</button>
+                                                                class="fa fa-shopping-bag" style="color: orange; font-weight: bold;">Buy</button>
                                                     </form>
 
                                                 @endif
