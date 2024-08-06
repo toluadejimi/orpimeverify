@@ -536,7 +536,7 @@
                                             <td>{{ $data->full_sms }} </td>
                                             <td>{{ $data->cost }} </td>
                                             @if($data->status == 2)
-                                                <td>
+                                                <td> 
                                                     <span class="badge badge-pill badge-success">Successful</span>
                                                 </td>
                                             @else
