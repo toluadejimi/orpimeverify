@@ -93,7 +93,7 @@
                 </nav>
             </div>
         </div>
-@section('content')
+
     <br>
     <br>
     <br>
