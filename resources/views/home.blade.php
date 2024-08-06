@@ -4,54 +4,7 @@
     <br>
     <br>
     <br>
-    <style>
-    .wallet-btn {
-        background-color: #1e1e1e;
-        color: white;
-        border: 2px solid #e90505;
-        border-radius: 20px;
-        padding: 10px 20px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-    }
 
-    .wallet-amount {
-        font-size: 1rem;
-        color: orange;
-        margin-right: 5px;
-    }
-
-    .divider {
-        margin: 0 8px;
-    }
-
-    .add-funds-btn {
-        background-color: #e90505;
-        color: white;
-        border-radius: 20px;
-        padding: 10px 20px;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    .add-funds-btn:hover {
-        background-color: #c70000;
-        border-color: #c70000;
-    }
-
-    /* Adjust spacing between buttons on smaller screens */
-    @media (max-width: 576px) {
-        .d-flex {
-            flex-direction: column;
-        }
-
-        .me-2 {
-            margin-right: 0 !important;
-            margin-bottom: 10px;
-        }
-    }
-</style>
 <br>
  
     <div class="container ">
@@ -62,21 +15,8 @@
             Hi, {{ Auth::user()->username }} 👋
         </h2>
         <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
-        <br>
-        <a href="/fund-wallet" id="balance" class="btn btn-primary wallet-btn me-2">
-        <span class="wallet-amount">
-            ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
-        </span>
-        <span class="divider">|</span>
-        <span class="wallet-amount">
-            ₦{{ number_format(Auth::user()->wallet, 2) }}
-        </span>
-    </a>
 
-    <!-- Add Funds Button -->
-    <a href="/add-funds" class="btn btn-outline-primary add-funds-btn">
-        Add Funds
-    </a>
+        
     </div>
 </div>
 
