@@ -16,13 +16,16 @@
         </h2>
         <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
         <br>
-        <a href="/fund-wallet" id="balance" class="btn btn-primary mr-2" style="font-weight: bold;">
-        <span style="color:orange;">
+        <button class="btn btn-primary wallet-btn d-flex align-items-center me-2">
+        <i class="bi bi-wallet2 me-2"></i>
+        <span class="wallet-amount">
             ₦{{ number_format(Auth::user()->hold_wallet, 2) }}
-        </span> |
-        
-        ₦{{ number_format(Auth::user()->wallet, 2) }}
-    </a>
+        </span>
+        <span class="divider">|</span>
+        <span class="wallet-amount">
+            ₦{{ number_format(Auth::user()->wallet, 2) }}
+        </span>
+    </button>
     </div>
 </div>
 
