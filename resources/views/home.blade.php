@@ -16,7 +16,12 @@
         </h2>
         <p style="font-size: 16px; color: gray;">Welcome to OprimeVerify</p>
 
-           
+        <a href="/fund-wallet" class="text-[#ffa700] border-2 border-[#ffa700] hover:bg-[#ffa700] md:font-medium font-thin rounded-md text-sm px-4 md:px-8 py-2 text-center bg-transparent hover:text-white mr-2 hidden md:block">
+           Fund Your Wallet
+         </a>
+         <a href="/fund-wallet" class="text-gray-800 bg-[#ffa700] hover:bg-[#ffa60086] md:font-medium font-thin rounded-md text-xs md:text-sm px-3 md:px-8 py-2 text-center hover:text-white">
+           Wallet Balance: ₦0
+         </a> 
     </div>
 </div>
 
