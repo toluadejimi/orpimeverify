@@ -126,7 +126,10 @@ class AdminController extends Controller
         $data['margin'] = Setting::where('id', 1)->first()->margin;
         $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
         $data['verification'] = Verification::latest()->paginate(10);
-
+        $alluser = Transaction::all()->sum('amount');
+        foreach($alluser as $user) {
+            dd($user);
+        }
 
 
         return view('admin-dashboard', $data);
