@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> - Login</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://no1smsplace.com/css/auth.css">
+    <link rel="shortcut icon" href="https://no1smsplace.com/images/favicon_nobg.png" type="image/x-icon">
+
+    <!-- Bootstrap Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-7eR++Z2uB2kHrkKr7vw91mbN8kEihvTmFjc06A76UO3VUBz9RAP83kAqW5/gF1j8" crossorigin="anonymous">
+
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa; /* Light grey background for the page */
+            font-family: 'Figtree', sans-serif;
+            background-color: #f8f9fa; /* Light grey background */
             color: #333;
         }
         .container {
@@ -37,7 +48,7 @@
         }
         .form-group label {
             font-weight: bold;
-            color: #007bff; /* Blue color */
+            color: #ffa700; /* Orange color from the original code */
         }
         .form-control {
             width: 100%;
@@ -50,26 +61,21 @@
             width: 100%;
             padding: 12px;
             border: none;
-            background-color: #007bff; /* Blue color */
+            background-color: #ffa700; /* Orange color from the original code */
             color: #fff;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         .btn-login:hover {
-            background-color: #0056b3; /* Darker blue */
+            background-color: #e68a00; /* Slightly darker orange */
         }
         .forgot-password, .register-link {
             text-align: center;
             margin-top: 10px;
         }
         .forgot-password a, .register-link a {
-            color: #007bff; /* Blue color */
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #6c757d;
+            color: #ffa700; /* Orange color */
         }
         .alert {
             margin-bottom: 20px;
@@ -81,9 +87,10 @@
 <div class="container">
     <div class="login-card">
         <div class="logo">
-            <img src="https://oprime.com.ng/mailer/wp-content/uploads/2024/04/IMG_0359.png" alt="logo">
+            <img src="https://no1smsace.com/images/logo_dark.png" alt="logo">
         </div>
-        <h2 class="text-center mb-4" style="color: #007bff;">Login</h2>
+        <h2 class="text-center mb-4" style="color: #ffa700;">Login</h2>
+        <!-- Error and Message Alerts -->
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -125,7 +132,7 @@
                 <a href="/forgot-password">Forgot password?</a>
             </div>
             <div class="register-link">
-                <p>No Account yet? <a href="register"><strong>Register</strong></a></p>
+                <p>No Account yet? <a href="/register"><strong>Register</strong></a></p>
             </div>
         </form>
     </div>
