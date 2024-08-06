@@ -15,15 +15,14 @@
             Hi, {{ Auth::user()->username }} 👋
         </h2>
         <p style="font-size: 16px; color: orange;">Welcome to OprimeVerify</p>
-        <br>
+    
         
-         
     </div>
     <div style="display: flex; justify-content: space-between;">
-    <div style="flex: 1; padding: 10px;">
-        <span>Total Verified Numbers: {{ $TotalVerifiedNumbers }}</span>
+    <div style="flex: 1; padding: 10px; background-color: blue; color: white; font-weight: bold;">
+        <span>Purchased Numbers: {{ $TotalVerifiedNumbers }}</span>
     </div>
-    <div style="flex: 1; padding: 10px;">
+    <div style="flex: 1; padding: 10px; background-color: orange; color: white; font-weight: bold;">
         <span>Total Deposits: {{ $totaldeposits }}</span>
     </div>
 </div>
