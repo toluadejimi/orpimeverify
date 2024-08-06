@@ -86,50 +86,58 @@
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   
 <div class="col-lg-5 col-sm-12"> -->
-        <div class="card border-0 shadow-lg p-2 mb-3 bg-body rounded-40">
-            <div class="card-body">
-                <div class="">
+<div class="container mt-5">
+        <div class="filter-section">
+            <input type="text" id="searchInput" class="filter-input"
+                   placeholder="Search for a service..." onkeyup="filterServices()">
+        </div>
 
-                    <div class="p-2 col-lg-6">
-                        <input type="text" id="searchInput" class="form-control border-0"
-                               placeholder="Click here to Search for a service..." onkeyup="filterServices()">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="service-card">
+                    <div class="service-header">USA 🇺🇸 Numbers (1)</div>
+                    <div class="service-body">
+                        <div class="price">₦1000</div>
+                        <button class="btn-buy">Buy Now</button>
                     </div>
-
-
-                    <div class="row my-3 p-2"
-                         style="background: blue; border-radius: 10px; color: white; font-size: 18px; border-radius: 15px">
-                        <div class="col-7">
-                            <h5>Services</h5>
-                        </div>
-                        <div class="col">
-                            <h5>Price</h5>
-                        </div>
-                    </div>
-
-
                 </div>
-
-                <div x-data="{currentTab: 1}">
-
-
-                <div class="flex justify-between pb-4">
-    <div @click="currentTab = 1"
-         class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
-        USA 🇺🇸 Numbers (1)
+            </div>
+            <div class="col-lg-4">
+                <div class="service-card">
+                    <div class="service-header">USA 🇺🇸 Numbers 2</div>
+                    <div class="service-body">
+                        <div class="price">₦1500</div>
+                        <button class="btn-buy">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-card">
+                    <div class="service-header">All Country Numbers</div>
+                    <div class="service-body">
+                        <div class="price">₦2000</div>
+                        <button class="btn-buy">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div @click="currentTab = 2"
-         class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
-        USA 🇺🇸 Numbers 2
-    </div>
-    <div @click="currentTab = 3"
-         class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
-        All Country Numbers
-    </div>
-</div>
 
-
-
-                    <div x-show="currentTab === 1" style="height:200px; width:100%; overflow-y: scroll;" class="">
+    <script>
+        function filterServices() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.service-card');
+            
+            cards.forEach(card => {
+                const serviceTitle = card.querySelector('.service-header').textContent.toLowerCase();
+                if (serviceTitle.includes(input)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
 
                         @foreach ($services as $key => $value)
