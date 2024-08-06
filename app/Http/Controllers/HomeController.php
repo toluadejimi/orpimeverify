@@ -236,43 +236,44 @@ class HomeController extends Controller
         // }
 
         if ($order == 0) {
-            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+            return redirect('home')->with('error', 'Number currently out of stock, please check back later');
         }
-
+        
+        // Handle low balance scenario
         if ($order == 0) {
             $message = "TWBNUMBER | Low balance";
             send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
+        
+            return redirect('home')->with('error', 'Error occurred, please try again');
         }
-
+        
+        // Handle general error scenario
         if ($order == 0) {
             $message = "TWBNUMBER | Error";
             send_notification($message);
-
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
+        
+            return redirect('home')->with('error', 'Error occurred, please try again');
         }
-
+        
+        // Process the order
         if ($order == 1) {
-
-            User::where('id', Auth::id())->decrement('wallet', $request->cost);
-
+            $userId = Auth::id();
+            $cost = $request->cost;
+        
+            // Move the cost from wallet to hold_wallet
+            User::where('id', $userId)->decrement('wallet', $cost);
+            User::where('id', $userId)->increment('hold_wallet', $cost);
+        
+            // Prepare additional data
             $data['services'] = get_tellbot_service();
             $data['get_rate'] = Setting::where('id', 1)->first()->rate;
             $data['margin'] = Setting::where('id', 1)->first()->margin;
-            $data['sms_order'] = Verification::where('user_id', Auth::id())->where('status' , 1)->latest()->first();
+            $data['sms_order'] = Verification::where('user_id', $userId)->where('status', 1)->latest()->first();
             $data['order'] = 1;
-
-            $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
-
-            return redirect('home')->with('message', 'Order Placed');
-
-            // return view('receivesmstella', $data);
+           
+        
         }
     }
-
 
 
     public function receive_sms(Request $request){
