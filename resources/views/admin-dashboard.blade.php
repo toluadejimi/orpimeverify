@@ -213,7 +213,7 @@
 
                         <div>
                             @foreach ($topusers as $user )
-                                {{ $user->username }} : {{ $user->total_deposit}}
+                                {{ $user->username }} : {{ number_format($user->total_deposit, 2) }}
                             @endforeach
                         </div>
 
