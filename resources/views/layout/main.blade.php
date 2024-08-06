@@ -125,6 +125,8 @@
                             {{ session()->get('error') }}
                         </div>
                         @endif
+
+                        @yield('content')
                         <script src="{{ url('') }}/public/concept/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
     <!-- bootstap bundle js -->
     <script src="{{ url('') }}/public/concept/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
