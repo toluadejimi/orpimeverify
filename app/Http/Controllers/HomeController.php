@@ -256,10 +256,9 @@ class HomeController extends Controller
         }
 
         if ($order == 1) {
-           
-           
+
             User::where('id', Auth::id())->decrement('wallet', $request->cost);
-            
+
             $data['services'] = get_tellbot_service();
             $data['get_rate'] = Setting::where('id', 1)->first()->rate;
             $data['margin'] = Setting::where('id', 1)->first()->margin;
@@ -1622,121 +1621,191 @@ public function simhook(Request $request) {
     }
 
 
-    public function delete_order(Request $request)
+    public function delete_order(request $request)
     {
-        $order = Verification::where('id', $request->id)->first();
-    
-        if ($order === null) {
+
+        $order = Verification::where('id', $request->id)->first() ?? null;
+        $status = Verification::where('id', $request->id)->first()->status ?? null;
+
+
+        if ($status == null) {
             return redirect('home')->with('error', 'Order not found');
         }
-    
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
         if ($order->status == 2) {
-            $order->delete();
-            return back()->with('message', 'Order has been successfully deleted');
+            Verification::where('id', $request->id)->delete();
+            return back()->with('message', "Order has been successfully deleted");
         }
-    
-        $orderID = $order->order_id;
-        $can_order = cancel_order($orderID);
-    
-        if ($can_order == 0) {
-            return back()->with('error', 'Please wait and try again later');
-        }
-    
-        if ($can_order == 1 || $can_order == 3) {
-            $amount = number_format($order->cost, 2);
-            User::where('id', Auth::id())->increment('wallet', $order->cost);
-            $order->delete();
-            return back()->with('message', "Order has been canceled, NGN$amount has been refunded");
-        }
-    }
-    
-    public function delete_order_admin(Request $request)
-    {
-        $order = Verification::where('id', $request->id)->first();
-    
-        if ($order === null) {
-            return back()->with('message', 'Order not found');
-        }
-    
-        if ($order->status == 2 || $order->status == 1) {
+
+        if ($order->status == 1) {
+
             $orderID = $order->order_id;
             $can_order = cancel_order($orderID);
-    
-            // Always delete the order
-            $order->delete();
-    
+
             if ($can_order == 0) {
-                return back()->with('message', 'Order has been canceled');
+                return back()->with('error', "Please wait and try again later");
             }
-    
-            return back()->with('message', 'Order has been canceled');
+
+
+            if ($can_order == 1) {
+                $amount = number_format($order->cost, 2);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
+
+
+            if ($can_order == 3) {
+                $amount = number_format($order->cost, 2);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
         }
     }
-    
-    public function e_check(Request $request)
+
+    public function delete_order_admin(request $request)
     {
-        $user = User::where('email', $request->email)->first();
-    
-        if ($user === null) {
+
+        $order = Verification::where('id', $request->id)->first() ?? null;
+        if ($order == null) {
+            return back()->with('message', "Order not found");
+        }
+
+        if ($order->status == 2) {
+            Verification::where('id', $request->id)->delete();
+            return back()->with('message', "Order has been successfully deleted");
+        }
+
+        if ($order->status == 1) {
+
+            $orderID = $order->order_id;
+            $can_order = cancel_order($orderID);
+
+            if ($can_order == 0) {
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled");
+            }
+
+
+            if ($can_order == 1) {
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled");
+            }
+
+
+            if ($can_order == 3) {
+                Verification::where('id', $request->id)->delete();
+                return back()->with('message', "Order has been cancled");
+            }
+        }
+    }
+
+
+
+
+    public function e_check(request $request)
+    {
+
+        $get_user =  User::where('email', $request->email)->first() ?? null;
+
+        if ($get_user == null) {
+
             return response()->json([
                 'status' => false,
                 'message' => 'No user found, please check email and try again',
             ]);
         }
-    
+
+
         return response()->json([
             'status' => true,
-            'user' => $user->username,
+            'user' => $get_user->username,
         ]);
     }
-    
-    public function e_fund(Request $request)
+
+
+    public function e_fund(request $request)
     {
-        $user = User::where('email', $request->email)->first();
-    
-        if ($user === null) {
+
+        $get_user =  User::where('email', $request->email)->first() ?? null;
+
+        if ($get_user == null) {
+
             return response()->json([
                 'status' => false,
                 'message' => 'No user found, please check email and try again',
             ]);
         }
-    
-        User::where('email', $request->email)->increment('wallet', $request->amount);
-    
+
+        User::where('email', $request->email)->increment('wallet', $request->amount) ?? null;
+
         $amount = number_format($request->amount, 2);
-    
-        $transaction = Transaction::where('ref_id', $request->order_id)->first();
-    
-        if ($transaction === null) {
-            $transaction = new Transaction();
-            $transaction->ref_id = $request->order_id;
-            $transaction->user_id = $user->id;
-            $transaction->status = 2;
-            $transaction->amount = $request->amount;
-            $transaction->type = 2;
-            $transaction->save();
-        } else {
-            $transaction->update(['status' => 2]);
+
+         $get_depo = Transaction::where('ref_id', $request->order_id)->first() ?? null;
+        if ($get_depo == null){
+            $trx = new Transaction();
+            $trx->ref_id = $request->order_id;
+            $trx->user_id = $get_user->id;
+            $trx->status = 2;
+            $trx->amount = $request->amount;
+            $trx->type = 2;
+            $trx->save();
+        }else{
+            Transaction::where('ref_id', $request->order_id)->update(['status'=> 2]);
         }
-    
+
+
         return response()->json([
             'status' => true,
             'message' => "NGN $amount has been successfully added to your wallet",
         ]);
     }
-    
-    public function verify_username(Request $request)
+
+        public function verify_username(request $request)
     {
-        $user = User::where('email', $request->email)->first();
-    
-        if ($user === null) {
+
+        $get_user =  User::where('email', $request->email)->first() ?? null;
+
+        if($get_user == null){
+
             return response()->json([
-                'username' => 'Not Found, Please try again',
+                'username' => "Not Found, Pleas try again"
             ]);
+
         }
-    
+
         return response()->json([
-            'username' => $user->username,
+            'username' => $get_user->username
         ]);
+
+
+
     }
-}    
+
+}
