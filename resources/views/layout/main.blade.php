@@ -22,7 +22,28 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+
+    <script src="{{ url('') }}/public/assets/vendor/Shortcode/Shortcode.js"></script>
+
+    <script src="{{ url('') }}/public/assets/js/app.js" defer></script>
+     <script src="{{ url('') }}/public/assets/js/server.js" defer></script>
+
+    <script src="https://unpkg.com/alpinejs" defer></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+
+
+
+
+
     <style>
         #span-3 {
             color: #6633db;
@@ -350,21 +371,6 @@
     </div>
 
     @yield('content')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
-
-    <script src="{{ url('') }}/public/assets/vendor/Shortcode/Shortcode.js"></script>
-
-    <script src="{{ url('') }}/public/assets/js/app.js" defer></script>
-     <script src="{{ url('') }}/public/assets/js/server.js" defer></script>
-
-    <script src="https://unpkg.com/alpinejs" defer></script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
 
     <script data-turbo-eval="false" data-turbolinks-eval="false">
     //     window.livewire = new Livewire();
