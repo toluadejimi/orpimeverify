@@ -492,9 +492,9 @@
 
     <div class="bg-base-100 border-t mt-5 p-5">
         <footer class="d-flex justify-content-center ">
-            <p>2024 OPRIME VERIFY</p>
+            <p>2020-2024 OPRIME VERIFY</p>
         </footer>
-    </div>
+    </div>   
 
    
 </body>
