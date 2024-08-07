@@ -119,9 +119,11 @@
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#"
+                                        <li class="breadcrumb-item"><a href="https://oprimeverify.com/admin-dashboard"
                                                                        class="breadcrumb-link">Dashboard</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Users</li>
+                                        <li class="breadcrumb-item"><a href="https://oprimeverify.com/manual-paymentt"
+                                                                       class="breadcrumb-link">Manual Payment</a></li>
                                     </ol>
                                 </nav>
                             </div>
