@@ -86,6 +86,12 @@
                             </div>
                         </li>
 
+                        <li class="nav-item active">
+                            <a class="nav-link active" href="https://oprimeverify.com/manual-payment" aria-controls="submenu-2"><i
+                                    class="fa fa-fw fa-rocket"></i>Manual Paymentt</a>
+
+                        </li>
+
 
                         <li class="nav-item active">
                             <a class="nav-link active" href="/users" aria-controls="submenu-2"><i
