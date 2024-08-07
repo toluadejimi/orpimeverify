@@ -122,7 +122,7 @@
 
                 <div x-data="{currentTab: 1}">
 
-
+   
                 <div class="flex justify-between pb-4">
     <div @click="currentTab = 1"
          class="button-gradient bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-medium me-2 px-4 py-2 rounded-md hover:cursor-pointer">
