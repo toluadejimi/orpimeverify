@@ -18,16 +18,16 @@
     
         
     </div>
-    <div style="display: flex; justify-content: space-between;">
+    <div style="display: flex; justify-content: space-between;"></div>
     <div style="flex: 1; padding: 10px; background-color: blue; color: white; font-weight: bold;">
         <span>Purchased Numbers: {{ number_format($TotalVerifiedNumbers) }}</span>
     </div>
     <div style="flex: 1; padding: 10px; background-color: orange; color: white; font-weight: bold; font: size 15px;">
-    <span>Total Deposits: ₦ {{ number_format($totaldeposits) }}</span>
+    <span>Total Deposits: ₦{{ number_format($totaldeposits) }}</span>
 </div>
 
 
-</div>
+
 
 </div>
 
