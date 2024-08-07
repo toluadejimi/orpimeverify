@@ -22,8 +22,8 @@
     <div style="flex: 1; padding: 10px; background-color: blue; color: white; font-weight: bold;">
         <span>Purchased Numbers: {{ number_format($TotalVerifiedNumbers) }}</span>
     </div>
-    <div style="flex: 1; padding: 10px; background-color: orange; color: white; font-weight: bold; font: size 10px;">
-    <span>Total Deposits: ₦{{ number_format($totaldeposits) }}</span>
+    <div style="flex: 1; padding: 10px; background-color: orange; color: white; font-weight: bold; font: size 15px;">
+    <span>Total Deposits: ₦ {{ number_format($totaldeposits) }}</span>
 </div>
 
 
@@ -174,7 +174,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondis(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy </button>
                                                     </form>
 
                                                 @endif
@@ -227,7 +227,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondon(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy</button>
                                                     </form>
 
                                                 @endif
@@ -256,7 +256,7 @@
 
                                         {{--                                <div class="col">--}}
                                         {{--                                    <a href="/order-now?service={{ $key }}&price={{ $cost }}&cost={{ $innerValue->cost }}&name={{ $innerValue->name }}">--}}
-                                        {{--                                 <i class="fa fa-shopping-bag"></i>--}}
+                                        {{--                                 <i class="fa fa-shopping-bag">Buy</i>--}}
                                         {{--                                    </a>--}}
                                         {{--                                </div>--}}
                                     @endif
@@ -305,7 +305,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonlop(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy</button>
                                                     </form>
 
                                                 @endif
@@ -374,7 +374,7 @@
                                                         <button class="myButton" type="submit"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonppl(this)"><i
-                                                                class="fa fa-shopping-bag"></i></button>
+                                                                class="fa fa-shopping-bag"></i>Buy</button>
                                                     </form>
 
                                                 @endif
@@ -402,7 +402,7 @@
 
                                             {{--                                        <div class="col">--}}
                                             {{--                                            <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">--}}
-                                            {{--                                                <i class="fa fa-shopping-bag"></i>--}}
+                                            {{--                                                <i class="fa fa-shopping-bag">Buy</i>--}}
                                             {{--                                            </a>--}}
                                             {{--                                        </div>--}}
                                             @endif
