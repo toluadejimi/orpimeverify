@@ -96,7 +96,7 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   
-<div class="col-lg-5 col-sm-12"> -->
+<!-- <div class="col-lg-5 col-sm-12"> --> 
         <div class="card border-0 shadow-lg p-2 mb-3 bg-body rounded-40">
             <div class="card-body">
                 <div class="">
@@ -402,7 +402,7 @@
 
                                             {{--                                        <div class="col">--}}
                                             {{--                                            <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">--}}
-                                            {{--                                                <i class="fa fa-shopping-bag">Buy</i>--}}
+                                            {{--                                                <i class="fa fa-shopping-bag"></i>--}}
                                             {{--                                            </a>--}}
                                             {{--                                        </div>--}}
                                             @endif
