@@ -275,6 +275,8 @@ class HomeController extends Controller
 
 
 
+
+
     public function receive_sms(Request $request){
 
         $data['sms_order'] = Verification::where('user_id', Auth::id())->where('id' , $request->id)->first();
