@@ -96,7 +96,7 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   
-<!-- <div class="col-lg-5 col-sm-12"> --> 
+<div class="col-lg-5 col-sm-12"> -->
         <div class="card border-0 shadow-lg p-2 mb-3 bg-body rounded-40">
             <div class="card-body">
                 <div class="">
@@ -174,7 +174,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondis(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy </button>
+                                                                class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
                                                 @endif
@@ -227,7 +227,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtondon(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy</button>
+                                                                class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
                                                 @endif
@@ -256,7 +256,7 @@
 
                                         {{--                                <div class="col">--}}
                                         {{--                                    <a href="/order-now?service={{ $key }}&price={{ $cost }}&cost={{ $innerValue->cost }}&name={{ $innerValue->name }}">--}}
-                                        {{--                                 <i class="fa fa-shopping-bag">Buy</i>--}}
+                                        {{--                                 <i class="fa fa-shopping-bag"></i>--}}
                                         {{--                                    </a>--}}
                                         {{--                                </div>--}}
                                     @endif
@@ -305,7 +305,7 @@
                                                         <button class="myButton"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonlop(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy</button>
+                                                                class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
                                                 @endif
@@ -374,7 +374,7 @@
                                                         <button class="myButton" type="submit"
                                                                 style="border: 0px; background: transparent"
                                                                 onclick="hideButtonppl(this)"><i
-                                                                class="fa fa-shopping-bag"></i>Buy</button>
+                                                                class="fa fa-shopping-bag"></i></button>
                                                     </form>
 
                                                 @endif
@@ -705,9 +705,9 @@
                     serviceRows[i].style.display = "";
                 } else {
                     serviceRows[i].style.display = "none";
-                } 
+                }
             }
         }
-    </script>       
+    </script>
 
 @endsection
