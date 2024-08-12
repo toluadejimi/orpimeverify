@@ -29,213 +29,626 @@ use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index(request $request)
     {
+
         return view('welcome');
     }
-    
-    public function home(Request $request)
+
+
+    public function home(request $request)
     {
-        $settings = Setting::find(1); // Fetch once for reuse
-    
-        $data = [
-            'services' => get_services(),
-            'get_rate' => $settings->rate,
-            'get_rate2' => $settings->rate_2,
-            'get_rate3' => $settings->rate_3,
-            'tellbot_services' => get_tellbot_service(),
-            'online_sim' => getOnlineSimServices(),
-            'margin' => $settings->margin,
-            'margin2' => $settings->margin_2,
-            'margin3' => $settings->margin_3,
-            'verification' => Verification::latest()->where('user_id', Auth::id())->paginate(10),
-            'order' => 0,
-            'TotalVerifiedNumbers' => Verification::where('user_id', Auth::id())->count(),
-            'totaldeposits' => Transaction::where('user_id', Auth::id())->sum('amount')
-        ];
-    
+
+        $data['services'] = get_services();
+        $data['get_rate'] = Setting::where('id', 1)->first()->rate;
+        $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
+        $data['get_rate3'] = Setting::where('id', 1)->first()->rate_3;
+        $data['tellbot_services'] = get_tellbot_service();
+        // dd($data['tellbot_services']);
+        $data['online_sim'] = getOnlineSimServices();
+//        dd($data['online_sim']->countries);
+//        dd($data['online_sim']);
+        $data['margin'] = Setting::where('id', 1)->first()->margin;
+        $data['margin2'] = Setting::where('id', 1)->first()->margin_2;
+        $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
+        $data['verification'] = Verification::latest()->where('user_id', Auth::id())->paginate('10');
+        $data['order'] = 0;
+     $data['TotalVerifiedNumbers'] = Verification::where('user_id', Auth::id())->count();
+     $data['totaldeposits'] = Transaction::where('user_id', Auth::id())->sum("amount");
+
         return view('home', $data);
     }
-    
+
+
     public function pendng_sms(Request $request)
     {
+
         return view('receive-sms');
+
     }
-    
+
+
     public function order_now(Request $request)
     {
-        if ($request->type == 1) {
+
+
+        if($request->type == 1){
+
+
+
             $service = $request->service;
             $price = $request->price;
             $service_name = $request->name;
-    
-            $settings = Setting::find(1); // Fetch once for reuse
-    
-            $innerValue = get_d_price($service);
-            $cost2 = $settings->rate * $innerValue + $settings->margin;
-    
-            // Uncomment if you want to check wallet balance
+
+            $data['services'] = get_services();
+            $data['get_rate'] = Setting::where('id', 1)->first()->rate;
+            $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
+            $data['get_rate3'] = Setting::where('id', 1)->first()->rate_3;
+            $data['margin'] = Setting::where('id', 1)->first()->margin;
+            $data['margin2'] = Setting::where('id', 1)->first()->margin_2;
+            $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
+            $innerValue =  get_d_price($service);
+
+            $cost2 = $data['get_rate'] * $innerValue + $data['margin'];
+
+
             // if ((int) Auth::user()->wallet < (int) $cost2) {
             //     return back()->with('error', "Insufficient Funds");
             // }
-    
-            $order = create_order($service, $price, $innerValue, $service_name, $cost2);
-    
-            switch ($order) {
-                case 9:
-                    return redirect('home')->with('error', 'Insufficient fund');
-                case 0:
-                    return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-                case 1:
-                    return redirect('home')->with('message', 'Order Placed');
-                default:
-                    return redirect('home')->with('error', 'An unexpected error occurred');
+  
+
+            $cost = $innerValue;
+            $price = $cost2;
+
+            $order = create_order($service, $price, $cost, $service_name, $cost2);
+
+            if ($order == 9) {
+                return redirect('home')->with('error', 'Insufficient fund');
             }
+
+            if ($order == 0) {
+                // User::where('id', Auth::id())->increment('wallet', $price);
+                return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+            }
+
+
+            if ($order == 1) {
+                return redirect('home')->with('message', 'Order Placed');
+            }
+
+
+
         }
+
+
+
+
+
+
     }
-    
+
     public function tellabot_order_now(Request $request)
     {
-        if ($request->type == 2) {
+
+
+        if($request->type == 2){
+
             $service = $request->service;
-    
-            $settings = Setting::find(1); // Fetch once for reuse
-    
-            $innerValue = get_t_price($service);
-            $cost2 = $settings->rate_2 * $innerValue + $settings->margin2;
-    
-            if (Auth::user()->wallet < $cost2) {
+            $data['services'] = get_services();
+            $data['get_rate2'] = Setting::where('id', 1)->first()->rate_2;
+            $data['get_rate3'] = Setting::where('id', 1)->first()->rate_3;
+            $data['margin'] = Setting::where('id', 1)->first()->margin;
+            $data['margin2'] = Setting::where('id', 1)->first()->margin_2;
+            $data['margin3'] = Setting::where('id', 1)->first()->margin_3;
+            $innerValue =  get_t_price($service);
+            $cost2 = $data['get_rate2'] * $innerValue + $data['margin2'];
+
+
+            if(Auth::user()->wallet < $cost2){
+                return redirect('home')->with('error', 'Insufficient Balance');
+
+            }
+
+            $cost = $innerValue;
+            $price = $cost2;
+
+
+            $order = create_tellbot_order($service, $price, $cost, $cost2);
+
+            // if ($order == 4) {
+            //     return redirect('home')->with('error', 'Number not available at the moment, Please try again later');
+            // }
+
+            if ($order == 9) {
                 return redirect('home')->with('error', 'Insufficient Balance');
             }
-    
-            $order = create_tellbot_order($service, $cost2, $innerValue, $cost2);
-    
-            switch ($order) {
-                case 9:
-                    return redirect('home')->with('error', 'Insufficient Balance');
-                case 0:
-                    User::where('id', Auth::id())->decrement('hold_wallet', $cost2);
-                    User::where('id', Auth::id())->increment('wallet', $cost2);
-                    return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-                case 1:
-                    return redirect('home')->with('message', 'Order Placed');
-                default:
-                    return redirect('home')->with('error', 'An unexpected error occurred');
+
+            if ($order == 0) {
+                User::where('id', Auth::id())->decrement('hold_wallet', $cost2);
+                User::where('id', Auth::id())->increment('wallet', $cost2);
+                return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
             }
+
+
+            if ($order == 1) {
+                return redirect('home')->with('message', 'Order Placed');
+            }
+
+
+
         }
+
     }
-    
+
     public function online_sms(Request $request)
     {
+
+
         if (Auth::user()->wallet < $request->cost) {
             return back()->with('error', "Insufficient Funds");
         }
-    
+
+
+
+
         $service = $request->service;
         $price = $request->price;
         $cost = $request->cost;
         $country = $request->country;
         $countryText = $request->countryText;
-    
+
+        $cost = $request->cost;
+
+
         $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-    
-        if ($last_order) {
+
+        if($last_order != null){
+
             $createdAt = strtotime($last_order);
             $currentTime = time();
             $timeDifference = $currentTime - $createdAt;
-    
+
             if ($timeDifference < 1) {
                 $notify = "Please wait for 10sec and try again";
                 return redirect('user/orders')->with('error', $notify);
             }
+
         }
-    
+
         $order = create_online_sms_number($service, $price, $cost, $country, $countryText);
-    
-        switch ($order) {
-            case 0:
-                return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-            case 1:
-                User::where('id', Auth::id())->decrement('wallet', $cost);
-                $data = [
-                    'services' => get_tellbot_service(),
-                    'get_rate' => Setting::find(1)->rate,
-                    'margin' => Setting::find(1)->margin,
-                    'sms_order' => Verification::where('user_id', Auth::id())->where('status', 1)->latest()->first(),
-                    'order' => 1,
-                    'verification' => Verification::where('user_id', Auth::id())->paginate(10)
-                ];
-                return redirect('home')->with('message', 'Order Placed');
-            default:
-                $message = "TWBNUMBER | Error";
-                send_notification($message);
-                return redirect('home')->with('error', 'Error occurred, Please try again');
+
+
+
+        //dd($order);
+
+        // if ($order == 9) {
+
+        //     $ver = Verification::latest()->where('user_id', auth()->id())->where('status', 1)->first() ?? null;
+        //     if($ver != null){
+
+        //         $data['sms_order'] = $ver;
+        //         $data['order'] = 1;
+
+        //         return view('receivesmstella', $data);
+
+        //     }
+        //     return redirect('home');
+        // }
+
+        if ($order == 0) {
+            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+        }
+
+        if ($order == 0) {
+            $message = "TWBNUMBER | Low balance";
+            send_notification($message);
+
+
+            return redirect('home')->with('error', 'Error occurred, Please try again');
+        }
+
+        if ($order == 0) {
+            $message = "TWBNUMBER | Error";
+            send_notification($message);
+
+
+            return redirect('home')->with('error', 'Error occurred, Please try again');
+        }
+
+        if ($order == 1) {
+
+            User::where('id', Auth::id())->decrement('wallet', $request->cost);
+
+            $data['services'] = get_tellbot_service();
+            $data['get_rate'] = Setting::where('id', 1)->first()->rate;
+            $data['margin'] = Setting::where('id', 1)->first()->margin;
+            $data['sms_order'] = Verification::where('user_id', Auth::id())->where('status' , 1)->latest()->first();
+            $data['order'] = 1;
+
+            $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
+
+            return redirect('home')->with('message', 'Order Placed');
+
+            // return view('receivesmstella', $data);
         }
     }
-    
-    public function receive_sms(Request $request)
-    {
-        $data = [
-            'sms_order' => Verification::where('user_id', Auth::id())->where('id', $request->id)->first(),
-            'order' => 1,
-            'verification' => Verification::where('user_id', Auth::id())->paginate(10)
-        ];
-    
+
+
+
+
+
+    public function receive_sms(Request $request){
+
+        $data['sms_order'] = Verification::where('user_id', Auth::id())->where('id' , $request->id)->first();
+        $data['order'] = 1;
+
+        $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
+
         return view('receivesms', $data);
+
     }
-    
-    public function receive_tella_sms(Request $request)
-    {
-        $data = [
-            'sms_order' => Verification::where('user_id', Auth::id())->where('id', $request->id)->first(),
-            'order' => 1,
-            'verification' => Verification::where('user_id', Auth::id())->paginate(10)
-        ];
-    
+
+
+    public function receive_tella_sms(Request $request){
+
+        $data['sms_order'] = Verification::where('user_id', Auth::id())->where('id' , $request->id)->first();
+        $data['order'] = 1;
+
+        $data['verification'] = Verification::where('user_id', Auth::id())->paginate(10);
+
         return view('receivesmstella', $data);
+
     }
-    
+
+
+
+
+
     public function cancle_sms(Request $request)
     {
-        $order = Verification::find($request->id);
-    
-        if (!$order) {
+
+        $order = Verification::where('id', $request->id)->first() ?? null;
+        if ($order == null) {
             return redirect('home')->with('error', 'Order not found');
         }
-    
+
         if ($order->status == 2) {
             return redirect('home')->with('message', "Order Completed");
         }
-    
-        if (Auth::user()->hold_wallet < $order->cost) {
+
+
+        if(Auth::user()->hold_wallet < $order->cost){
             return redirect('home')->with('message', "Please Contact admin");
         }
-    
+
+
+
         if ($order->status == 1) {
+
             $orderID = $order->order_id;
             $can_order = cancel_order($orderID);
-    
-            if ($request->delete == 1 && $order->status == 1) {
+
+            if($request->delete == 1){
+
+                if($order->status == 1){
+
+                    $amount = number_format($order->cost, 2);
+                    Verification::where('id', $request->id)->delete();
+
+                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                    User::where('id', Auth::id())->increment('wallet', $order->cost);
+
+
+                    $user = User::where('id', Auth::id())->first();
+                    $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                    send_notification($message);
+                    return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+
+                }
+
+
+            }
+
+
+            if ($can_order == 0) {
+                return redirect('home')->with('error', "Order has been removed");
+            }
+
+
+            if ($can_order == 1) {
                 $amount = number_format($order->cost, 2);
                 Verification::where('id', $request->id)->delete();
                 User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                 User::where('id', Auth::id())->increment('wallet', $order->cost);
-                $message = Auth::user()->email . " is just got refunded by deleting verification of " . $order->cost;
+
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                 send_notification($message);
-                return redirect('home')->with('message', "Order has been canceled, NGN$amount has been refunded");
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
             }
-    
-            switch ($can_order) {
-                case 0:
-                    return redirect('home')->with('error', "Order has been removed");
-                case 1:
-                case 3:
+
+
+            if ($can_order == 3) {
+                $order = Verification::where('id', $request->id)->first() ?? null;
+                if ($order->status != 1 || $order == null) {
+                    return redirect('home')->with('error', "Please try again later");
+                }
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
+        }
+    }
+
+    public function cancle_tella_sms(Request $request)
+    {
+
+
+        $order = Verification::where('order_id', $request->id)->first() ?? null;
+
+
+
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order->status == 2) {
+            return redirect('home')->with('message', "Order Completed");
+        }
+
+
+        if(Auth::user()->hold_wallet < $order->cost){
+            return redirect('home')->with('message', "Please Contact admin");
+        }
+
+
+
+        if ($order->status == 1) {
+
+            $orderID = $order->order_id;
+            $can_order = cancel_tella_order($orderID);
+
+            if($request->delete == 1){
+
+                if($order->status == 1){
+
                     $amount = number_format($order->cost, 2);
-                    Verification::where('id', $request->id)->delete();
+                    Verification::where('order_id', $request->id)->delete();
                     User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                     User::where('id', Auth::id())->increment('wallet', $order->cost);
-                    $message = Auth::user()->email . " has just completed the verification for an amount of NGN " . number_format($order->cost, 2);
+                    $user = User::where('id', Auth::id())->first();
+                    $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                    send_notification($message);
+                    return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
 
+
+                }
+
+
+            }
+
+
+            if ($can_order == 0) {
+                return redirect('home')->with('error', "Order has been removed");
+            }
+
+
+            if ($can_order == 1) {
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
+
+
+            if ($can_order == 3) {
+                $order = Verification::where('id', $request->id)->first() ?? null;
+                if ($order->status != 1 || $order == null) {
+                    return redirect('home')->with('error', "Please try again later");
+                }
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
+        }
+    }
+
+
+    public function cancel_online_sms(Request $request)
+    {
+
+
+        $order = Verification::where('order_id', $request->id)->first() ?? null;
+
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order->status == 2) {
+            return redirect('home')->with('message', "Order Completed");
+        }
+
+        if(Auth::user()->hold_wallet < $order->cost){
+            return redirect('home')->with('message', "Please Contact admin");
+        }
+
+
+        if ($order->status == 1) {
+
+            $orderID = $order->order_id;
+            $can_order = cancel_online_sms_number($orderID);
+
+            if($request->delete == 1){
+
+                if($order->status == 1){
+
+                    $amount = number_format($order->cost, 2);
+                    Verification::where('order_id', $request->id)->delete();
+                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                    User::where('id', Auth::id())->increment('wallet', $order->cost);
+                    $user = User::where('id', Auth::id())->first();
+                    $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                    send_notification($message);
+                    return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+
+
+                }
+
+
+            }
+
+
+            if ($can_order == 0) {
+                return redirect('home')->with('error', "Order has been removed");
+            }
+
+
+            if ($can_order == 1) {
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
+
+
+            if ($can_order == 3) {
+                $order = Verification::where('id', $request->id)->first() ?? null;
+                if ($order->status != 1 || $order == null) {
+                    return redirect('home')->with('error', "Please try again later");
+                }
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
+        }
+    }
+
+    public function check_sms(Request $request)
+    {
+
+        $order = Verification::where('id', $request->id)->first() ?? null;
+
+
+        if($request->count == 1){
+
+            $status = $order->status;
+
+            if($status == 1 || $status == 0){
+
+                $amount = number_format($order->cost, 2);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                Verification::where('id', $request->id)->delete();
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been canceled, NGN$amount has been refunded");
+
+            }
+        }
+
+        $orderID = $order->order_id;
+        $chk = check_sms($orderID);
+        if($chk == 3){
+            return redirect('home')->with('message', 'Sms Received, order completed');
+        }
+
+        if($chk == 1){
+            return back()->with('error', 'No order found');
+        }
+
+        if($chk == 2){
+            return back()->with('message', 'Please wait we are getting your sms');
+        }
+
+        if($chk == 4){
+            return back()->with('error', 'Order has been cancled');
+        }
+
+    }
+
+    public function check_tella_sms(Request $request)
+    {
+        // dd($request->mdn);
+
+        $order = Verification::where('phone', $request->mdn)->first() ?? null;
+
+        // dd($order);
+
+
+        // if($request->count == 1){
+
+        //     $status = $order->status;
+
+        //     if($status == 1 || $status == 0){
+
+        //         $amount = number_format($order->cost, 2);
+        //         User::where('id', Auth::id())->increment('wallet', $order->cost);
+        //         Verification::where('id', $request->id)->delete();
+        //         return redirect('home')->with('message', "Order has been canceled, NGN$amount has been refunded");
+
+        //     }
+        // }
+
+        // $orderID = $order->order_id;
+        $chk = check_tella_sms($order->phone);
+        if($chk == 3){
+            return redirect('home')->with('message', 'Sms Received, order completed');
+        }
+
+        if($chk == 1){
+            return back()->with('error', 'No order found');
+        }
+    }
+
+    public function  get_tella_smscode(request $request)
+    {
+
+
+        $sms =  Verification::where('phone', $request->mdn)->first()->sms ?? null;
+        $phone =  Verification::where('phone', $request->mdn)->first()->phone;
+        $order_id =  Verification::where('phone', $request->mdn)->first()->order_id ?? null;
+        check_tella_sms($phone);
+
+
+        $originalString = 'waiting for sms';
+        $processedString = str_replace('"', '', $originalString);
+
+
+        if ($sms == null) {
+            return response()->json([
+                'message' => $processedString
+            ]);
+        } else {
+
+            return response()->json([
+                'message' => $sms
+            ]);
+        }
+    }
 
     public function fund_wallet(Request $request)
     {
