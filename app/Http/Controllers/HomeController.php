@@ -317,7 +317,7 @@ class HomeController extends Controller
         }
 
 
-        if(Auth::user()->hold_wallet < $order->cost){
+        if(Auth::user()->hold_wallet > $order->cost){
             return redirect('home')->with('message', "Please Contact admin");
         }
 
