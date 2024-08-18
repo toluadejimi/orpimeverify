@@ -334,8 +334,20 @@ class HomeController extends Controller
                     $amount = number_format($order->cost, 2);
                     Verification::where('id', $request->id)->delete();
 
-                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                    User::where('id', Auth::id())->increment('wallet', $order->cost);
+                  // Retrieve the currently authenticated user
+$user = User::find(Auth::id());
+
+// Check if the user has sufficient funds in the hold_wallet
+if ($user->hold_wallet >= $order->cost) {
+    // Deduct from hold_wallet and add to wallet
+    $user->decrement('hold_wallet', $order->cost);
+    $user->increment('wallet', $order->cost);
+} else {
+    // Handle the case where the user doesn't have enough funds
+    // For example, you could throw an exception or set a flash message
+    return redirect('home')->with('error', "Insufficient funds in hold wallet.");
+}
+
 
 
                     $user = User::where('id', Auth::id())->first();
