@@ -183,9 +183,9 @@ class HomeController extends Controller
     {
 
 
-        // if (Auth::user()->wallet < $request->cost) {
-        //     return back()->with('error', "Insufficient Funds");
-        // }
+        if (Auth::user()->wallet < $request->cost) {
+            return back()->with('error', "Insufficient Funds");
+        }
 
 
 
@@ -234,29 +234,29 @@ class HomeController extends Controller
         //     return redirect('home');
         // }
 
-        // if ($order == 0) {
-        //     return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
-        // }
+        if ($order == 0) {
+            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+        }
 
-        // if ($order == 0) {
-        //     $message = "TWBNUMBER | Low balance";
-        //     send_notification($message);
-
-
-        //     return redirect('home')->with('error', 'Error occurred, Please try again');
-        // }
-
-        // if ($order == 0) {
-        //     $message = "TWBNUMBER | Error";
-        //     send_notification($message);
+        if ($order == 0) {
+            $message = "TWBNUMBER | Low balance";
+            send_notification($message);
 
 
-        //     return redirect('home')->with('error', 'Error occurred, Please try again');
-        // }
+            return redirect('home')->with('error', 'Error occurred, Please try again');
+        }
 
-        // if ($order == 1) {
+        if ($order == 0) {
+            $message = "TWBNUMBER | Error";
+            send_notification($message);
 
-        //     User::where('id', Auth::id())->decrement('wallet', $request->cost);
+
+            return redirect('home')->with('error', 'Error occurred, Please try again');
+        }
+
+        if ($order == 1) {
+
+            User::where('id', Auth::id())->decrement('wallet', $request->cost);
 
             $data['services'] = get_tellbot_service();
             $data['get_rate'] = Setting::where('id', 1)->first()->rate;
@@ -352,43 +352,7 @@ class HomeController extends Controller
                 return redirect('home')->with('message', "Order has been canceled. NGN$amount has been processed.");
             }
         }
-        
-
-
-            if ($can_order == 0) {
-                return redirect('home')->with('error', "Order has been removed");
-            }
-
-
-            if ($can_order == 1) {
-                $amount = number_format($order->cost, 2);
-                Verification::where('id', $request->id)->delete();
-                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
-
-                $user = User::where('id', Auth::id())->first();
-                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
-                send_notification($message);
-                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
-            }
-
-
-            if ($can_order == 3) {
-                $order = Verification::where('id', $request->id)->first() ?? null;
-                if ($order->status != 1 || $order == null) {
-                    return redirect('home')->with('error', "Please try again later");
-                }
-                $amount = number_format($order->cost, 2);
-                Verification::where('id', $request->id)->delete();
-                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
-                $user = User::where('id', Auth::id())->first();
-                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
-                send_notification($message);
-                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
-            }
-        }
-    }
+    }  
 
     public function cancle_tella_sms(Request $request)
     {
@@ -414,64 +378,37 @@ class HomeController extends Controller
 
 
 
-        if ($order->status == 1) {
+        if ($order->status == 1) { // If the order is pending or not completed
 
             $orderID = $order->order_id;
-            $can_order = cancel_tella_order($orderID);
-
-            if($request->delete == 1){
-
-                if($order->status == 1){
-
-                    $amount = number_format($order->cost, 2);
-                    Verification::where('order_id', $request->id)->delete();
-                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                    User::where('id', Auth::id())->increment('wallet', $order->cost);
-                    $user = User::where('id', Auth::id())->first();
-                    $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
-                    send_notification($message);
-                    return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
-
-
-                }
-
-
-            }
-
-
-            if ($can_order == 0) {
-                return redirect('home')->with('error', "Order has been removed");
-            }
-
-
-            if ($can_order == 1) {
+            $can_order = cancel_order($orderID);
+        
+            if ($request->delete == 1) { // If a delete request is made
+        
                 $amount = number_format($order->cost, 2);
-                Verification::where('id', $request->id)->delete();
-                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
-                $user = User::where('id', Auth::id())->first();
-                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
-                send_notification($message);
-                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
-            }
-
-
-            if ($can_order == 3) {
-                $order = Verification::where('id', $request->id)->first() ?? null;
-                if ($order->status != 1 || $order == null) {
-                    return redirect('home')->with('error', "Please try again later");
+                Verification::where('id', $request->id)->delete(); // Remove the verification record
+        
+                $userId = Auth::id();
+                $user = User::where('id', $userId)->first();
+        
+                if ($order->is_completed) { // Check if the order is completed
+                    // Order is completed, so remove funds from hold wallet permanently
+                    User::where('id', $userId)->decrement('hold_wallet', $order->cost);
+        
+                    $message = $user->email . " has been charged NGN" . $order->cost . " for a completed order.";
+                } else {
+                    // Order is not completed, so transfer funds to main wallet
+                    User::where('id', $userId)->decrement('hold_wallet', $order->cost);
+                    User::where('id', $userId)->increment('wallet', $order->cost);
+        
+                    $message = $user->email . " has been refunded NGN" . $order->cost . " due to order cancellation.";
                 }
-                $amount = number_format($order->cost, 2);
-                Verification::where('id', $request->id)->delete();
-                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);
-                $user = User::where('id', Auth::id())->first();
-                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+        
                 send_notification($message);
-                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+                return redirect('home')->with('message', "Order has been canceled. NGN$amount has been processed.");
             }
         }
-    }
+    }   
 
 
     public function cancel_online_sms(Request $request)
