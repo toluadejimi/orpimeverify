@@ -412,62 +412,98 @@ if ($user->hold_wallet >= $order->cost) {
     {
 
 
-        public function cancel_tella_sms(Request $request)
-        {
-            // Retrieve the order by order_id
-            $order = Verification::where('order_id', $request->id)->first();
-        
-            if (!$order) {
-                return redirect('home')->with('error', 'Order not found');
-            }
-        
-            // Retrieve the authenticated user
-            $user = User::find(Auth::id());
-        
-            if ($order->status == 2) {
-                return redirect('home')->with('message', "Order Completed");
-            }
-        
-            if ($user->hold_wallet < $order->cost) {
-                return redirect('home')->with('message', "Insufficient funds in hold wallet. Please contact admin.");
-            }
-        
-            // Proceed with cancellation
+        $order = Verification::where('order_id', $request->id)->first() ?? null;
+
+
+
+
+        if ($order == null) {
+            return redirect('home')->with('error', 'Order not found');
+        }
+
+        if ($order->status == 2) {
+            return redirect('home')->with('message', "Order Completed");
+        }
+
+
+        if(Auth::user()->hold_wallet < $order->cost){
+            return redirect('home')->with('message', "Please Contact admin");
+        }
+
+
+
+        if ($order->status == 1) {
+
             $orderID = $order->order_id;
             $can_order = cancel_tella_order($orderID);
-        
+
+            if($request->delete == 1){
+
+                if($order->status == 1){
+
+                    $amount = number_format($order->cost, 2);
+                    Verification::where('order_id', $request->id)->delete();
+                    // Retrieve the currently authenticated user
+$user = User::find(Auth::id());
+
+// Check if the user has sufficient funds in the hold_wallet
+if ($user->hold_wallet >= $order->cost) {
+    // Deduct from hold_wallet and add to wallet
+    $user->decrement('hold_wallet', $order->cost);
+    $user->increment('wallet', $order->cost);
+} else {
+    // Handle the case where the user doesn't have enough funds
+    // For example, you could throw an exception or set a flash message
+    return redirect('home')->with('error', "Insufficient funds in hold wallet.");
+}
+
+                    $user = User::where('id', Auth::id())->first();
+                    $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                    send_notification($message);
+                    return redirect('home')->with('message', "Order has been cancled, NGN$amount has been added back to your wallet");
+
+
+                }
+
+
+            }
+
+
             if ($can_order == 0) {
                 return redirect('home')->with('error', "Order has been removed");
             }
-        
-            if ($can_order == 1 || $can_order == 3) {
-                // Check if the user has sufficient funds in hold_wallet
-                if ($user->hold_wallet >= $order->cost) {
-                    // Proceed with deletion and wallet update
-                    $amount = number_format($order->cost, 2);
-        
-                    // Delete the order
-                    Verification::where('order_id', $request->id)->delete();
-        
-                    // Update wallet balances
-                    $user->decrement('hold_wallet', $order->cost);
-                    $user->increment('wallet', $order->cost);
-        
-                    // Send notification
-                    $message = "{$user->email} has been refunded by deleting verification of NGN{$order->cost}";
-                    send_notification($message);
-        
-                    // Return success message
-                    return redirect('home')->with('message', "Order has been canceled. NGN{$amount} has been refunded to your wallet.");
-                } else {
-                    // Handle the case where the user doesn't have enough funds
-                    return redirect('home')->with('error', "Insufficient funds in hold wallet.");
-                }
+
+
+            if ($can_order == 1) {
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
             }
-        
-            return redirect('home')->with('error', "Unexpected error occurred.");
+   
+  
+             if ($can_order == 3) {
+                $order = Verification::where('id', $request->id)->first() ?? null;
+                if ($order->status != 1 || $order == null) {
+                    return redirect('home')->with('error', "Please try again later");
+                }
+                $amount = number_format($order->cost, 2);
+                Verification::where('id', $request->id)->delete();
+                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
+                User::where('id', Auth::id())->increment('wallet', $order->cost);
+                $user = User::where('id', Auth::id())->first();
+                $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
+                send_notification($message);
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+            }
         }
-        
+    }
+
+
     public function cancel_online_sms(Request $request)
     {
 
