@@ -300,7 +300,7 @@ class HomeController extends Controller
     }
 
 
-
+    
 
 
     public function cancle_sms(Request $request)
