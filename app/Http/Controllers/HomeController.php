@@ -198,22 +198,6 @@ class HomeController extends Controller
 
         $cost = $request->cost;
 
-
-        $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-
-        if($last_order != null){
-
-            $createdAt = strtotime($last_order);
-            $currentTime = time();
-            $timeDifference = $currentTime - $createdAt;
-
-            if ($timeDifference < 1) {
-                $notify = "Please wait for 10sec and try again";
-                return redirect('user/orders')->with('error', $notify);
-            }
-
-        }
-
         $order = create_online_sms_number($service, $price, $cost, $country, $countryText);
 
 
@@ -234,25 +218,25 @@ class HomeController extends Controller
         //     return redirect('home');
         // }
 
+        if ($order == 9) {
+            return redirect('home')->with('error', 'Insufficient Balance');
+        }
+
         if ($order == 0) {
+            // User::where('id', Auth::id())->increment('wallet', $price);
             return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
         }
 
-        if ($order == 0) {
-            $message = "TWBNUMBER | Low balance";
-            send_notification($message);
 
-
-            return redirect('home')->with('error', 'Error occurred, Please try again');
+        if ($order == 1) {
+            return redirect('home')->with('message', 'Order Placed');
         }
 
-        if ($order == 0) {
-            $message = "TWBNUMBER | Error";
-            send_notification($message);
 
 
-            return redirect('home')->with('error', 'Error occurred, Please try again');
-        }
+    
+
+
 
         if ($order == 1) {
 
@@ -274,8 +258,6 @@ class HomeController extends Controller
 
 
 
-
-
     public function receive_sms(Request $request){
 
         $data['sms_order'] = Verification::where('user_id', Auth::id())->where('id' , $request->id)->first();
@@ -286,6 +268,7 @@ class HomeController extends Controller
         return view('receivesms', $data);
 
     }
+
 
 
     public function receive_tella_sms(Request $request){
@@ -508,9 +491,7 @@ if ($user->hold_wallet >= $order->cost) {
     {
 
 
-        $order = Verification::where('order_id', $request->id)->first() ?? null;
-
-
+        $order = Verification::where('id', $request->id)->first() ?? null;
         if ($order == null) {
             return redirect('home')->with('error', 'Order not found');
         }
@@ -519,29 +500,45 @@ if ($user->hold_wallet >= $order->cost) {
             return redirect('home')->with('message', "Order Completed");
         }
 
+
         if(Auth::user()->hold_wallet < $order->cost){
             return redirect('home')->with('message', "Please Contact admin");
         }
 
 
+
         if ($order->status == 1) {
 
             $orderID = $order->order_id;
-            $can_order = cancel_online_sms_number($orderID);
+            $can_order = cancel_order($orderID);
 
             if($request->delete == 1){
 
                 if($order->status == 1){
 
                     $amount = number_format($order->cost, 2);
-                    Verification::where('order_id', $request->id)->delete();
-                    User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                    User::where('id', Auth::id())->increment('wallet', $order->cost);
+                    Verification::where('id', $request->id)->delete();
+
+                  // Retrieve the currently authenticated user
+$user = User::find(Auth::id());
+
+// Check if the user has sufficient funds in the hold_wallet
+if ($user->hold_wallet >= $order->cost) {
+    // Deduct from hold_wallet and add to wallet
+    $user->decrement('hold_wallet', $order->cost);
+    $user->increment('wallet', $order->cost);
+} else {
+    // Handle the case where the user doesn't have enough funds
+    // For example, you could throw an exception or set a flash message
+    return redirect('home')->with('error', "Insufficient funds in hold wallet.");
+}
+
+
+
                     $user = User::where('id', Auth::id())->first();
                     $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                     send_notification($message);
                     return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
-
 
                 }
 
@@ -559,6 +556,7 @@ if ($user->hold_wallet >= $order->cost) {
                 Verification::where('id', $request->id)->delete();
                 User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
                 User::where('id', Auth::id())->increment('wallet', $order->cost);
+
                 $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                 send_notification($message);
@@ -573,11 +571,24 @@ if ($user->hold_wallet >= $order->cost) {
                 }
                 $amount = number_format($order->cost, 2);
                 Verification::where('id', $request->id)->delete();
-                User::where('id', Auth::id())->decrement('hold_wallet', $order->cost);
-                User::where('id', Auth::id())->increment('wallet', $order->cost);                $user = User::where('id', Auth::id())->first();
+        // Retrieve the currently authenticated user
+$user = User::find(Auth::id());
+
+// Check if the user has sufficient funds in the hold_wallet
+if ($user->hold_wallet >= $order->cost) {
+    // Deduct from hold_wallet and add to wallet
+    $user->decrement('hold_wallet', $order->cost);
+    $user->increment('wallet', $order->cost);
+} else {
+    // Handle the case where the user doesn't have enough funds
+    // For example, you could throw an exception or set a flash message
+    return redirect('home')->with('error', "Insufficient funds in hold wallet.");
+}
+
+                $user = User::where('id', Auth::id())->first();
                 $message = $user->email."is just got refunded by deleting verification of ".$order->cost;
                 send_notification($message);
-                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded");
+                return redirect('home')->with('message', "Order has been cancled, NGN$amount has been refunded back to your wallet");
             }
         }
     }
