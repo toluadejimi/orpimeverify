@@ -220,19 +220,19 @@ class HomeController extends Controller
 
         //dd($order);
 
-        // if ($order == 9) {
+        if ($order == 9) {
 
-        //     $ver = Verification::latest()->where('user_id', auth()->id())->where('status', 1)->first() ?? null;
-        //     if($ver != null){
+            $ver = Verification::latest()->where('user_id', auth()->id())->where('status', 1)->first() ?? null;
+            if($ver != null){
 
-        //         $data['sms_order'] = $ver;
-        //         $data['order'] = 1;
+                $data['sms_order'] = $ver;
+                $data['order'] = 1;
 
-        //         return view('receivesmstella', $data);
+                return view('receivesmstella', $data);
 
-        //     }
-        //     return redirect('home');
-        // }
+            }
+            return redirect('home');
+        }
 
         if ($order == 0) {
             return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
