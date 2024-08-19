@@ -183,12 +183,24 @@ class HomeController extends Controller
     {
 
 
-        if (Auth::user()->wallet < $request->cost) {
-            return back()->with('error', "Insufficient Funds");
+        if ($order == 9) {
+            return redirect('home')->with('error', 'Insufficient Balance');
+        }
+
+        if ($order == 0) {
+            // User::where('id', Auth::id())->increment('wallet', $price);
+            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+        }
+
+
+        if ($order == 1) {
+            return redirect('home')->with('message', 'Order Placed');
         }
 
 
 
+    }
+}
 
         $service = $request->service;
         $price = $request->price;
