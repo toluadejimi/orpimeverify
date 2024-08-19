@@ -181,41 +181,61 @@ class HomeController extends Controller
 
     public function online_sms(Request $request)
     {
-
-
-        if (Auth::user()->wallet < $request->cost) {
+        // Ensure the user has enough funds before proceeding
+        $cost = $request->cost;
+        if (Auth::user()->wallet < $cost) {
             return back()->with('error', "Insufficient Funds");
         }
-
-
-
-
+    
+        // Fetch necessary settings
         $service = $request->service;
         $price = $request->price;
-        $cost = $request->cost;
         $country = $request->country;
         $countryText = $request->countryText;
-
-        $cost = $request->cost;
-
-
+    
+        // Fetch settings from the database
+        $settings = Setting::find(1);
+        $data['get_rate'] = $settings->rate;
+        $data['margin'] = $settings->margin;
+    
+        // Calculate innerValue and cost2
+        $innerValue = get_d_price($service);
+        $cost2 = $data['get_rate'] * $innerValue + $data['margin'];
+    
+        // Check if the user has sufficient funds
+        if (Auth::user()->wallet < $cost2) {
+            return back()->with('error', "Insufficient Funds");
+        }
+    
+        // Check the last order time
         $last_order = Verification::latest()->where('user_id', Auth::id())->first()->created_at ?? null;
-
-        if($last_order != null){
-
+        if ($last_order) {
             $createdAt = strtotime($last_order);
             $currentTime = time();
             $timeDifference = $currentTime - $createdAt;
-
-            if ($timeDifference < 1) {
-                $notify = "Please wait for 10sec and try again";
-                return redirect('user/orders')->with('error', $notify);
+    
+            if ($timeDifference < 10) { // Assuming 10 seconds as the minimum wait time
+                return redirect('user/orders')->with('error', "Please wait for 10 seconds and try again");
             }
-
         }
-
-        $order = create_online_sms_number($service, $price, $cost, $country, $countryText);
-
+    
+        // Create the order
+        $order = create_online_sms_number($service, $price, $cost2, $country, $countryText);
+    
+        // Handle different order statuses
+        if ($order == 9) {
+            return redirect('home')->with('error', 'Insufficient fund');
+        }
+    
+        if ($order == 0) {
+            return redirect('home')->with('error', 'Number Currently out of stock, Please check back later');
+        }
+    
+        if ($order == 1) {
+            return redirect('home')->with('message', 'Order Placed');
+        }
+    }
+}    
 
 
         //dd($order);
