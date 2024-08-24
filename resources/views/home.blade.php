@@ -272,19 +272,30 @@
                     </div>
 
                     <div x-show="currentTab === 2" style="height:200px; width:100%; overflow-y: scroll;" class="">
+                    @if(!empty($tellbot_services) && isset($tellbot_services->message))
+    @foreach ($tellbot_services->message as $key)
+        <div class="row service-row">
+            <div style="font-size: 12px " class="col-5 service-name">
+                {{ $key->name }}
+            </div>
+            @if(Auth::user()->custom_price != 0)
+                <div style="font-size: 12px " class="col">
+                    @php 
+                        $cost = (int) Auth::user()->custom_price * (double) $key->price + (int) $margin2;
+                    @endphp
+                    N{{ number_format($cost, 2) }}
+                </div>
+            @endif
+        </div>
+    @endforeach
+@else
+    <div class="row service-row">
+        <div class="col-12">
+            <p style="font-size: 12px; color: red;">Server is busy</p>
+        </div>
+    </div>
+@endif
 
-                        @if(!empty($tellbot_services))
-
-                            @foreach ($tellbot_services->message as $key)
-                                <div class="row service-row">
-                                    <div style="font-size: 12px " class="col-5 service-name">
-                                        {{ $key->name }}
-                                    </div>
-                                    @if(Auth::user()->custom_price != 0)
-                                        <div style="font-size: 12px " class="col">
-                                            @php $cost = (int) Auth::user()->custom_price * (double) $key->price + (int) $margin2 @endphp
-                                            N{{ number_format($cost, 2) }}
-                                        </div>
 
                                         <div class="col">
                                             @auth
