@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // use App\Mail\VerifyEmail;
+
+use App\Mail\VerifyEmail;
 use App\Models\Order;
 use App\Models\Session;
 use DateTime;
@@ -1226,7 +1228,7 @@ if ($user->hold_wallet >= $order->cost) {
             'url' => 'https://oprimeverify.com/verify_email/'.$id.'/'.$token.'/'
         ];
 
-        // Mail::to($request->email)->send(new VerifyEmail($details));
+        Mail::to($request->email)->send(new VerifyEmail($details));
 
         // Log in the user after registration (optional)
         auth()->login($user);
@@ -1235,30 +1237,30 @@ if ($user->hold_wallet >= $order->cost) {
         return redirect('home');
     }
 
-    // public function verify_email($id, $token) {
-    //     $user = User::whereId($id)->whereIsVerified(0)->first();
-    //     auth()->login($user);
-    //     if($user) {
-    //         User::whereId($id)->update(['is_verified' => 1]);
-    //         return redirect('home')->with('message', 'Email verified successfully');
-    //     }else{
-    //         return redirect('home');
-    //     }
-    // }
+    public function verify_email($id, $token) {
+        $user = User::whereId($id)->whereIsVerified(0)->first();
+        auth()->login($user);
+        if($user) {
+            User::whereId($id)->update(['is_verified' => 1]);
+            return redirect('home')->with('message', 'Email verified successfully');
+        }else{
+            return redirect('home');
+        }
+    }
 
-    // public function sendMail()
-    // {
-    //     $token = Str::random(26);
+    public function sendMail()
+    {
+        $token = Str::random(26);
 
-    //     $details = [
-    //         'username' => auth()->user()->username,
-    //         'url' => 'https://oprimeverify.com/verify_email/'.auth()->id().'/'.$token.'/'
-    //     ];
+        $details = [
+            'username' => auth()->user()->username,
+            'url' => 'https://oprimeverify.com/verify_email/'.auth()->id().'/'.$token.'/'
+        ];
 
-    //     Mail::to(auth()->user()->email)->send(new VerifyEmail($details));
+        Mail::to(auth()->user()->email)->send(new VerifyEmail($details));
 
-    //     return redirect('home')->with('message', 'Email sent');
-    // }
+        return redirect('home')->with('message', 'Email sent');
+    }
 
 
 
