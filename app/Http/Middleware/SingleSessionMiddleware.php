@@ -23,8 +23,7 @@ class SingleSessionMiddleware
                 // Log out the user if they have an existing session
                 Auth::logout();
                 Session::flush();
-                return redirect('/login')->with('error', 'You have been logged out because you have logged in from another device. <br> <a href="https://oprimeverify.com/clear" style="background-color: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none;">Click here to logout</a>');
-
+                return redirect('/login')->with('error', 'You have been logged out because you have logged in from another device.');
             }
 
             // Store the session ID in the database
