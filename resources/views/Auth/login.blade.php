@@ -90,6 +90,13 @@
             <img src="https://oprime.com.ng/mailer/wp-content/uploads/2024/04/IMG_0359.png" alt="logo" height="50" width="100" alt="logo">
         </div>
         <h2 class="text-center mb-4" style="color: #ffa700;">Login</h2>
+        @if(session('error'))
+    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        <p>{!! session('error') !!}</p>
+        <a href="https://oprimeverify.com/clear" style="background-color: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 10px;">Click here to logout</a>
+    </div>
+@endif
+
         <!-- Error and Message Alerts -->
         @if ($errors->any())
             <div class="alert alert-danger">

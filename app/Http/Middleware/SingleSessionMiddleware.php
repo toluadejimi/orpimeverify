@@ -19,12 +19,13 @@ class SingleSessionMiddleware
                 ->where('id', '!=', session()->getId())
                 ->first();
 
-            if ($session) {
-                // Log out the user if they have an existing session
-                Auth::logout();
-                Session::flush();
-                return redirect('/login')->with('error', 'You have been logged out because you have logged in from another device.');
-            }
+                if ($session) {
+                    // Log out the user if they have an existing session
+                    Auth::logout();
+                    Session::flush();
+                    return redirect('/login')->with('error', 'You have been logged out because you have logged in from another device.');
+                }
+                
 
             // Store the session ID in the database
             \DB::table('sessions')

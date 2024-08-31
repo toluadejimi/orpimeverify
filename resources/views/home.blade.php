@@ -7,15 +7,14 @@
 
 
 
-<br>
+
 @if(!auth()->user()->is_verified)
 @if (session()->has('message'))
     <div class="alert alert-success">
         {{ session()->get('message') }}
     </div>
 @endif
-<br>
-<br>
+
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; padding: 20px;">
     <p style="font-size: 1.2rem; color: #333; margin-bottom: 20px;">
         Your account has not been verified.
