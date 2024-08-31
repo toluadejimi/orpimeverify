@@ -1262,7 +1262,7 @@ if ($user->hold_wallet >= $order->cost) {
 
         Mail::to(auth()->user()->email)->send(new VerifyEmail($details));
 
-        return redirect('home')->with('message', 'Email sent');
+        return redirect('home')->with('message', 'Email sent Kindly check the gmail account you use to register inbox or spam folder');
     }
 
 
