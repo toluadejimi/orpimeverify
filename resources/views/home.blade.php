@@ -16,9 +16,15 @@
 @endif
 <br>
 <br>
-<div>
-    Your account has not been verified, <a href="{{ route('send.mail') }}" class="bg-blue-500 px-4 py-1.5 rounded-md text-white">please verify now!</a>
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; padding: 20px;">
+    <p style="font-size: 1.2rem; color: #333; margin-bottom: 20px;">
+        Your account has not been verified.
+    </p>
+    <a href="{{ route('send.mail') }}" style="background-color: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 1rem;">
+        Please verify now!
+    </a>
 </div>
+
 @else
 <div class="container ">
 
