@@ -6,7 +6,11 @@
 <br>
 
 <br>
+<br>
+<br>
+<br>
 
+<br>
 @if(!auth()->user()->is_verified)
 <div>
     Your account has not been verified, <a href="{{ route('send.mail') }}">please verify now!</a>
