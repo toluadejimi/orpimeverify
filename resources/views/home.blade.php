@@ -5,15 +5,14 @@
 <br>
 <br>
 
-<br>
-<br>
-<br>
-<br>
+
 
 <br>
 @if(!auth()->user()->is_verified)
+<br>
+<br>
 <div>
-    Your account has not been verified, <a href="{{ route('send.mail') }}">please verify now!</a>
+    Your account has not been verified, <a href="{{ route('send.mail') }}" class="bg-blue-500 px-4 py-1.5 rounded-md text-white">please verify now!</a>
 </div>
 @else
 <div class="container ">

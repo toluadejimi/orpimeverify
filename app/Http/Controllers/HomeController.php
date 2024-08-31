@@ -1250,6 +1250,9 @@ if ($user->hold_wallet >= $order->cost) {
 
     public function sendMail()
     {
+        if(empty(auth()->id()) || auth()->user()->is_verified == 1) {
+            return redirect('home')->with('message', 'Unauthorized');
+        }
         $token = Str::random(26);
 
         $details = [
