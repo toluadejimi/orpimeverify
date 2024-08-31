@@ -688,15 +688,7 @@
         var span1 = document.createElement('span');
         span1.textContent = service.service;
         var span2 = document.createElement('span');
-        var price = {
-            {
-                $get_rate3
-            }
-        }* service.price + {
-            {
-                $margin3
-            }
-        };
+        var price = {{ $get_rate3 }} * service.price + {{$margin3 }};
         var noN = price.toFixed(2);
         span2.textContent = `N ${price.toFixed(2)}`;
         a.href = `/order-sim?service=${service.service}&price=${service.price}&country=${country}&countryText=${countryText}&cost=${noN}`;
