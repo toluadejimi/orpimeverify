@@ -22,7 +22,7 @@
         Your account has not been verified.
     </p>
     <a href="{{ route('send.mail') }}" style="background-color: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 1rem;">
-        Please verify now!
+        Please Click here to verify now!
     </a>
 </div>
 
