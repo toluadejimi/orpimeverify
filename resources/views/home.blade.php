@@ -295,68 +295,121 @@
 
                 <div x-show="currentTab === 2" style="height:200px; width:100%; overflow-y: scroll;" class="">
 
-                @if (!empty($tellbot_services) && isset($tellbot_services->message) && count($tellbot_services->message) > 0)
-    @foreach ($tellbot_services->message as $key)
-        <div class="row service-row">
-            <div class="col-5 service-name" style="font-size: 12px;">
-                {{ $key->name }}
-            </div>
-            @php
-                $cost = Auth::user()->custom_price != 0 
-                    ? (int) Auth::user()->custom_price * (double) $key->price + (int) $margin2
-                    : (int) $get_rate2 * (double) $key->price + (int) $margin2;
-                $isCustomPrice = Auth::user()->custom_price != 0;
-            @endphp
+                    @if(!empty($tellbot_services))
 
-            <div class="col" style="font-size: 12px;">
-                N{{ number_format($cost, 2) }}
-            </div>
+                    @foreach ($tellbot_services->message as $key)
+                    <div class="row service-row">
+                        <div style="font-size: 12px " class="col-5 service-name">
+                            {{ $key->name }}
+                        </div>
+                        @if(Auth::user()->custom_price != 0)
+                        <div style="font-size: 12px " class="col">
+                            @php $cost = (int) Auth::user()->custom_price * (double) $key->price + (int) $margin2 @endphp
+                            N{{ number_format($cost, 2) }}
+                        </div>
 
-            <div class="col">
-                @auth
-                    @if (Auth::user()->wallet < $cost)
-                        <a href="fund-wallet" style="color: #7c7c7c"><i class="bi bi-wallet-fill"> Fund Wallet</i></a>
-                    @else
-                        <form action="order-usasecound" method="post">
-                            @csrf
-                            <input type="hidden" name="service" value="{{ $key->name }}">
-                            <input type="hidden" name="type" value="2">
-                            <input type="hidden" name="amount" value="{{ $cost }}">
-                            <input type="hidden" name="cost" value="{{ $key->price }}">
-                            <input type="hidden" name="name" value="{{ $innerValue->name }}">
-                            <button class="myButton" type="submit" style="border: 0; background: transparent;" onclick="hideButton(this)">
-                                <i class="fa fa-shopping-bag"></i> Buy
-                            </button>
-                        </form>
-                    @endif
-                @else
-                    <a href="/login">
-                        <i class="fa fa-lock text-dark"></i>
-                    </a>
-                @endauth
-            </div>
-        </div>
-    @endforeach
-@else
-    <div class="row">
-        <div class="col text-center" style="font-size: 12px;">
-            Server busy. Please try again later.
-        </div>
-    </div>
-@endif
+                        <div class="col">
+                            @auth
 
-<script>
-    function hideButton(button) {
-        // Hide the clicked button
-        button.style.display = 'none';
+                            @if(Auth::user()->wallet < $cost)
 
-        setTimeout(function() {
-            button.style.display = 'inline'; // or 'block' depending on your layout
-        }, 5000); // 5 seconds
-    }
-</script>
+                                <a href="fund-wallet" style="color: #7c7c7c"><i
+                                    class="bi bi-wallet-fill"> Fund Wallet</i></a>
 
-<!-- 
+                                @else
+                                <form action="order-usasecound" method="post">
+                                    @csrf
+                                    <input hidden name="service" value="{{ $key->name }}">
+                                    <input hidden name="type" value="2">
+                                    <input hidden name="amount" value="{{ $cost }}">
+                                    <input hidden name="cost" value="{{ $key->price }}">
+                                    <input hidden name="name" value="{{ $innerValue->name }}">
+                                    <button class="myButton"
+                                        style="border: 0px; background: transparent"
+                                        onclick="hideButtonlop(this)"><i
+                                            class="fa fa-shopping-bag"></i>Buy</button>
+                                </form>
+
+                                @endif
+
+                                @else
+
+                                <a class=""
+                                    href="/login">
+                                    <i class="fa fa-lock text-dark"></i>
+                                </a>
+                                @endauth
+
+
+                                <script>
+                                    function hideButtonlop(link) {
+                                        // Hide the clicked link
+                                        link.style.display = 'none';
+
+                                        setTimeout(function() {
+                                            link.style.display = 'inline'; // or 'block' depending on your layout
+                                        }, 5000); // 5 seconds
+                                    }
+                                </script>
+
+                        </div>
+
+
+
+
+
+                        {{-- <div class="col">--}}
+                        {{-- <a href="/order-oprime?service={{ $key->name }}&price={{ $cost }}&cost={{ $key->price }}">--}}
+                        {{-- <i class="fa fa-shopping-bag"></i>--}}
+                        {{-- </a>--}}
+                        {{-- </div>--}}
+
+
+
+
+                        @else
+
+
+                        <div style="font-size: 11px" class="col">
+                            @php $cost = (int) $get_rate2 * (double) $key->price + (int) $margin2 @endphp
+                            N{{ number_format($cost, 2) }}
+                        </div>
+
+                        <div class="col">
+
+
+                            @auth
+
+                            @if(Auth::user()->wallet < $cost)
+
+                                <a href="fund-wallet" style="color: #7c7c7c"><i
+                                    class="bi bi-wallet-fill"> Fund Wallet</i></a>
+
+                                @else
+                                <form id="orderForm" action="order-usasecound" method="post">
+                                    @csrf
+                                    <input hidden name="service" value="{{ $key->name }}">
+                                    <input hidden name="type" value="2">
+                                    <input hidden name="amount" value="{{ $cost }}">
+                                    <input hidden name="cost" value="{{ $key->price }}">
+                                    <input hidden name="name" value="{{ $innerValue->name }}">
+                                    <button class="myButton" type="submit"
+                                        style="border: 0px; background: transparent"
+                                        onclick="hideButtonppl(this)"><i
+                                            class="fa fa-shopping-bag"></i>Buy</button>
+                                </form>
+
+                                @endif
+
+                                @else
+
+                                <a class=""
+                                    href="/login">
+                                    <i class="fa fa-lock text-dark"></i>
+                                </a>
+                                @endauth
+
+
                                 <script>
                                     function hideButtonppl(link) {
                                         // Hide the clicked link
@@ -366,7 +419,7 @@
                                             link.style.display = 'inline'; // or 'block' depending on your layout
                                         }, 5000); // 5 seconds
                                     }
-                                </script> -->
+                                </script>
 
 
                                 {{-- <div class="col">--}}
@@ -380,7 +433,11 @@
 
                         <hr style="border-color: #cccccc" class=" my-2">
                     </div>
-                
+                    @endforeach
+
+                    @else
+                    <span>Server busy</span>
+                    @endif
                 </div>
                 <div x-show="currentTab === 3" style="height:200px; width:100%; overflow-y: scroll;" class="">
 
@@ -552,7 +609,7 @@
 </div>
 </div>
 </div>
-
+@endif
 
 
 
