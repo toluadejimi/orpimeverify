@@ -295,33 +295,18 @@
 
                 <div x-show="currentTab === 2" style="height:200px; width:100%; overflow-y: scroll;" class="">
 
-                @if (isset($tellbot_services->message) && count($tellbot_services->message) > 0)
-    @foreach ($tellbot_services->message as $key)
-        <div class="row service-row">
-            <div class="col-5 service-name" style="font-size: 12px;">
-                {{ $key->name }}
-            </div>
-            @if (Auth::user()->custom_price != 0)
-                @php
-                    $customPrice = (int) Auth::user()->custom_price;
-                    $servicePrice = (double) $key->price;
-                    $margin = (int) $margin2;
-                    $cost = $customPrice * $servicePrice + $margin;
-                @endphp
-                <div class="col" style="font-size: 12px;">
-                    N{{ number_format($cost, 2) }}
-                </div>
-            @endif
-        </div>
-    @endforeach
-@else
-    <div class="row">
-        <div class="col text-center" style="font-size: 12px;">
-            Server busy. Please try again later.
-        </div>
-    </div>
+                    @if(!empty($tellbot_services))
 
-
+                    @foreach ($tellbot_services->message as $key)
+                    <div class="row service-row">
+                        <div style="font-size: 12px " class="col-5 service-name">
+                            {{ $key->name }}
+                        </div>
+                        @if(Auth::user()->custom_price != 0)
+                        <div style="font-size: 12px " class="col">
+                            @php $cost = (int) Auth::user()->custom_price * (double) $key->price + (int) $margin2 @endphp
+                            N{{ number_format($cost, 2) }}
+                        </div>
 
                         <div class="col">
                             @auth
