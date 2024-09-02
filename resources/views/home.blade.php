@@ -380,11 +380,11 @@
 
                         <hr style="border-color: #cccccc" class=" my-2">
                     </div>
-                    @endforeach
+                    <!-- @endforeach
 
                     @else
                     <span>Server busy</span>
-                    @endif
+                    @endif -->
                 </div>
                 <div x-show="currentTab === 3" style="height:200px; width:100%; overflow-y: scroll;" class="">
 
