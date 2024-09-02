@@ -295,7 +295,7 @@
 
                 <div x-show="currentTab === 2" style="height:200px; width:100%; overflow-y: scroll;" class="">
 
-                    @if(!empty($tellbot_services))
+                    @if(is_array($tellbot_services->message))
 
                     @foreach ($tellbot_services->message as $key)
                     <div class="row service-row">
@@ -436,7 +436,7 @@
                     @endforeach
 
                     @else
-                    <span>Server busy</span>
+                    <span>Server busy, try again later</span>
                     @endif
                 </div>
                 <div x-show="currentTab === 3" style="height:200px; width:100%; overflow-y: scroll;" class="">
