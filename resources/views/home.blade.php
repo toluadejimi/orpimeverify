@@ -458,30 +458,8 @@
 
                         </div>
                         <div class="pt-2" id="servicesList">
-                        <button class="myButton"
-                                        style="border: 0px; background: transparent"
-                                        onclick="hideButtondis(this)"><i
-                                            class="fa fa-shopping-bag"></i>Buy </button>
-                                            @endif
+                            
 
-@else
-
-<a class=""
-    href="/login">
-    <i class="fa fa-lock text-dark"></i>
-</a>
-@endauth
-
-<script>
-    function hideButtondis(link) {
-        // Hide the clicked link
-        link.style.display = 'none';
-
-        setTimeout(function() {
-            link.style.display = 'inline'; // or 'block' depending on your layout
-        }, 5000); // 5 seconds
-    }
-</script>
                         </div>
                     </div>
 
