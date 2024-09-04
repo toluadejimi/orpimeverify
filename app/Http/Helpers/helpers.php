@@ -256,11 +256,16 @@ function get_d_price($service){
 
 
 function get_t_price($service){
+   
 
     $tellbot_services = get_tellbot_service();
-    foreach ($tellbot_services->message as $key){
-        $keyn[] = ['name' => $key->name, 'price' =>$key->price ];
+    if (is_array($tellbot_services->message)){
+        foreach ($tellbot_services->message as $key){
+            $keyn[] = ['name' => $key->name, 'price' =>$key->price ];
+    
+    }
 
+    
     }
 
     $filterName = $service;
@@ -501,8 +506,8 @@ function create_online_sms_number($service, $price, $cost, $country, $countryTex
     if($result['response'] == 1) {
 
         if((int) Auth::user()->wallet >= (int) $cost){
-            User::where('id', Auth::id())->decrement('wallet', $cost);
-            User::where('id', Auth::id())->increment('hold_wallet', $cost);
+            User::where('id', Auth::id())->decrement('wallet', $cost2);
+            User::where('id', Auth::id())->increment('hold_wallet', $cost2);
         }else{
             return 9;
         }
